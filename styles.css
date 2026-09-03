@@ -124,13 +124,46 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Interactive link transitions */
-.nav-smooth-link {
-  transition: all 0.2s ease;
+/* Tab Navigation Styles */
+.tab-pane {
+  animation: tabFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.nav-smooth-link:active {
-  transform: scale(0.98);
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sidebar-tab-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-tab-btn.active {
+  background: rgba(0, 255, 136, 0.1) !important;
+  color: #00ff88 !important;
+  border-color: rgba(0, 255, 136, 0.35) !important;
+  box-shadow: 0 0 18px rgba(0, 255, 136, 0.15);
+  font-weight: 600;
+}
+
+.sidebar-tab-btn.active .active-indicator {
+  display: block !important;
+}
+
+.sidebar-tab-btn:not(.active) .active-indicator {
+  display: none !important;
+}
+
+.sidebar-tab-btn:hover:not(.active) {
+  background: #0f1d16;
+  color: #ffffff;
+  border-color: #1a3325;
 }
 
 

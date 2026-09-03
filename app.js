@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeExecute('Modal Handlers', initModalHandlers);
   safeExecute('Auth Portal', initAuth);
   safeExecute('Interactive Widgets', initInteractiveWidgets);
+  safeExecute('Tab Navigation System', initTabs);
 });
 
 function safeExecute(name, fn) {
@@ -250,14 +251,17 @@ function initMolecular3D() {
   const particles = new THREE.Points(particleGeo, particleMat);
   scene.add(particles);
 
-  window.addEventListener('resize', () => {
+  function handleMolecularResize() {
     if (!container || !renderer) return;
-    const newW = container.clientWidth || 340;
-    const newH = container.clientHeight || 256;
-    camera.aspect = newW / newH;
-    camera.updateProjectionMatrix();
-    renderer.setSize(newW, newH);
-  });
+    if (container.clientWidth > 0 && container.clientHeight > 0) {
+      const newW = container.clientWidth;
+      const newH = container.clientHeight;
+      camera.aspect = newW / newH;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newW, newH);
+    }
+  }
+  window.addEventListener('resize', handleMolecularResize);
 
   const resetBtn = document.getElementById('resetMoleculeBtn');
   if (resetBtn) {
@@ -457,14 +461,17 @@ function initFactory3D() {
   }
   animate();
 
-  window.addEventListener('resize', () => {
+  function handleFactoryResize() {
     if (!container || !renderer) return;
-    const nw = container.clientWidth || 340;
-    const nh = container.clientHeight || 256;
-    camera.aspect = nw / nh;
-    camera.updateProjectionMatrix();
-    renderer.setSize(nw, nh);
-  });
+    if (container.clientWidth > 0 && container.clientHeight > 0) {
+      const nw = container.clientWidth;
+      const nh = container.clientHeight;
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    }
+  }
+  window.addEventListener('resize', handleFactoryResize);
 }
 
 /* ==========================================================================
@@ -477,8 +484,10 @@ function initLogisticsMap() {
   if (!ctx) return;
 
   function resize() {
-    canvas.width = (canvas.parentElement && canvas.parentElement.clientWidth) ? canvas.parentElement.clientWidth : 380;
-    canvas.height = (canvas.parentElement && canvas.parentElement.clientHeight) ? canvas.parentElement.clientHeight : 256;
+    if (canvas.parentElement && canvas.parentElement.clientWidth > 0 && canvas.parentElement.clientHeight > 0) {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
   }
   resize();
   window.addEventListener('resize', resize);
@@ -1051,30 +1060,7 @@ function initInteractiveWidgets() {
     });
   }
 
-  // 5. Sidebar Smooth Scrolling & Active State
-  const navDashboard = document.getElementById('navDashboard');
-  const navLinks = document.querySelectorAll('.nav-smooth-link');
-
-  if (navDashboard && mainViewport) {
-    navDashboard.addEventListener('click', () => {
-      mainViewport.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const targetId = link.getAttribute('href');
-      if (targetId && targetId.startsWith('#')) {
-        e.preventDefault();
-        const targetEl = document.querySelector(targetId);
-        if (targetEl && mainViewport) {
-          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    });
-  });
-
-  // 6. Compliance Audit & System Settings
+  // 5. Compliance Audit & System Settings
   const navAudit = document.getElementById('navComplianceAudit');
   const navSettings = document.getElementById('navSystemSettings');
 
@@ -1089,5 +1075,93 @@ function initInteractiveWidgets() {
       triggerToast('System Settings: Industrial Ecology Node Configuration • Security Clearance Level 5');
     });
   }
+}
+
+/* ==========================================================================
+   11. TAB-BASED NAVIGATION SYSTEM (Reduced Cognitive Overload)
+   ========================================================================== */
+function initTabs() {
+  const tabButtons = document.querySelectorAll('.sidebar-tab-btn');
+  const quickSwitchBtns = document.querySelectorAll('[data-switch-tab]');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+  const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+  const mainContent = document.getElementById('dashboardMain') || document.querySelector('main');
+
+  const tabLabels = {
+    'tab-dashboard': 'Executive Overview & KPIs',
+    'tab-molecular': 'Molecular AI GNN Analysis',
+    'tab-logistics': 'Global Spatial Logistics Map',
+    'tab-digital-twin': 'Factory Digital Twin — Plant Alpha',
+    'tab-sankey': 'Material Flow Analysis (Sankey)',
+    'tab-carbon-ledger': 'Automated ESG & Circular Carbon Ledger'
+  };
+
+  function switchTab(targetTabId) {
+    if (!targetTabId) return;
+
+    // 1. Hide all tab panes
+    tabPanes.forEach(pane => {
+      pane.classList.add('hidden');
+    });
+
+    // 2. Show the target tab pane
+    const targetPane = document.getElementById(targetTabId);
+    if (targetPane) {
+      targetPane.classList.remove('hidden');
+    }
+
+    // 3. Update sidebar buttons active styling
+    tabButtons.forEach(btn => {
+      const isTarget = btn.getAttribute('data-tab') === targetTabId;
+      if (isTarget) {
+        btn.classList.add('active');
+        btn.classList.remove('text-slate-400', 'border-transparent');
+      } else {
+        btn.classList.remove('active');
+        btn.classList.add('text-slate-400', 'border-transparent');
+      }
+    });
+
+    // 4. Update breadcrumb text
+    if (breadcrumbCurrent && tabLabels[targetTabId]) {
+      breadcrumbCurrent.textContent = tabLabels[targetTabId];
+    }
+
+    // 5. Scroll main container smoothly to top
+    if (mainContent) {
+      mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 6. CRITICAL FIX: Trigger window resize event after short delay
+    // This recalculates WebGL and Canvas buffer dimensions for newly unhidden containers
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }, 60);
+  }
+
+  // Bind Sidebar Tab Buttons
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetTabId = btn.getAttribute('data-tab');
+      if (targetTabId) {
+        switchTab(targetTabId);
+      }
+    });
+  });
+
+  // Bind Quick Switch Buttons in Overview
+  quickSwitchBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetTabId = btn.getAttribute('data-switch-tab');
+      if (targetTabId) {
+        switchTab(targetTabId);
+      }
+    });
+  });
 }
 

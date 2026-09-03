@@ -30,7 +30,17 @@ A high-performance, cyber-physical B2B Web Application dashboard interface desig
    - Blockchain-verified Carbon Credit trading ledger table (`#SYN-8842`, `#SYN-8843`, etc.).
    - Merkle root verification hash & glowing **A+ ESG Score Gauge**.
 
-7. **Enterprise Access Portal (Frontend Login Simulation)**
+7. **Tab-Based Navigation & Focused Workstation Architecture**
+   - High-efficiency sidebar tab triggers eliminating cognitive overload and visual clutter.
+   - **Tab 1 (Dashboard / Overview)**: High-level executive overview with 4 KPI cards and quick-launch workstation tiles.
+   - **Tab 2 (Molecular AI GNN)**: Full-bleed 3D polymer molecular studio.
+   - **Tab 3 (Logistics Map)**: Dedicated spatial reverse-logistics terminal.
+   - **Tab 4 (Digital Twins)**: Deep cyber-physical factory simulation with telemetry pills and camera controls.
+   - **Tab 5 (Material Flows)**: Expansive closed-loop Sankey mass balance station.
+   - **Tab 6 (ESG Ledger)**: AI prediction hub, carbon credit trade log, and A+ ESG rating.
+   - **Critical Dimension Recalculation**: Automated delayed window resize dispatch (`window.dispatchEvent(new Event('resize'))`) guaranteeing Three.js and Canvas 2D renderers never collapse to 0x0 when unhidden.
+
+8. **Enterprise Access Portal (Frontend Login Simulation)**
    - Futuristic cyber-physical glassmorphism login portal overlay.
    - **Google Workspace SSO** button with official multi-colored Google 'G' icon and simulated OAuth authentication delay.
    - **Enterprise Email & Password** form with show/hide password toggle and auto-name extraction.
