@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeExecute('Prediction Chart', initPredictionChart);
   safeExecute('Telemetry Simulator', initTelemetrySimulator);
   safeExecute('Modal Handlers', initModalHandlers);
+  safeExecute('Auth Portal', initAuth);
 });
 
 function safeExecute(name, fn) {
@@ -773,3 +774,133 @@ function initModalHandlers() {
   if (closeBtn1) closeBtn1.addEventListener('click', closeModal);
   if (closeBtn2) closeBtn2.addEventListener('click', closeModal);
 }
+
+/* ==========================================================================
+   9. AUTHENTICATION & LOGIN SIMULATION (Frontend Formality)
+   ========================================================================== */
+function initAuth() {
+  const loginOverlay = document.getElementById('loginOverlay');
+  const googleBtn = document.getElementById('googleLoginBtn');
+  const googleBtnText = document.getElementById('googleBtnText');
+  const emailForm = document.getElementById('emailLoginForm');
+  const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+  const emailBtnText = document.getElementById('emailBtnText');
+  const emailBtnArrow = document.getElementById('emailBtnArrow');
+  const emailInput = document.getElementById('loginEmailInput');
+  const passInput = document.getElementById('loginPassInput');
+  const togglePassBtn = document.getElementById('togglePassBtn');
+  const forgotPassBtn = document.getElementById('forgotPassBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const authToast = document.getElementById('authToast');
+  const authToastMsg = document.getElementById('authToastMsg');
+  const headerUserName = document.getElementById('headerUserName');
+  const headerUserRole = document.getElementById('headerUserRole');
+
+  if (!loginOverlay) return;
+
+  function showToast(msg) {
+    if (!authToast) return;
+    if (authToastMsg) authToastMsg.textContent = msg;
+    authToast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-12');
+    authToast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      authToast.classList.remove('opacity-100', 'translate-y-0');
+      authToast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-12');
+    }, 4000);
+  }
+
+  function completeLogin(userName, userRole, provider) {
+    if (headerUserName && userName) headerUserName.textContent = userName;
+    if (headerUserRole && userRole) headerUserRole.textContent = userRole;
+
+    loginOverlay.classList.add('hidden-overlay');
+    showToast(`Signed in via ${provider} • Access Granted`);
+
+    if (googleBtnText) googleBtnText.textContent = 'Continue with Google Workspace';
+    if (emailBtnText) emailBtnText.textContent = 'Authorize & Enter Central Core';
+    if (emailBtnArrow) emailBtnArrow.classList.remove('hidden');
+    if (googleBtn) googleBtn.disabled = false;
+    if (emailSubmitBtn) emailSubmitBtn.disabled = false;
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  // 1. Google Login Simulation
+  if (googleBtn) {
+    googleBtn.addEventListener('click', () => {
+      googleBtn.disabled = true;
+      if (googleBtnText) {
+        googleBtnText.innerHTML = `
+          <span class="inline-flex items-center gap-2 text-[#00e5ff]">
+            <span class="w-3.5 h-3.5 border-2 border-[#00e5ff] border-t-transparent rounded-full animate-spin"></span>
+            Verifying Google OAuth Token...
+          </span>
+        `;
+      }
+
+      setTimeout(() => {
+        completeLogin('Dr. Elara Vance', 'Chief Ecologist (Google SSO)', 'Google Workspace');
+      }, 700);
+    });
+  }
+
+  // 2. Email / Password Login Simulation
+  if (emailForm) {
+    emailForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (emailSubmitBtn) emailSubmitBtn.disabled = true;
+      if (emailBtnArrow) emailBtnArrow.classList.add('hidden');
+      if (emailBtnText) {
+        emailBtnText.innerHTML = `
+          <span class="inline-flex items-center gap-2">
+            <span class="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+            Authorizing Consensus Node...
+          </span>
+        `;
+      }
+
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      let displayName = 'Dr. Elara Vance';
+      if (emailVal && emailVal.includes('@')) {
+        const prefix = emailVal.split('@')[0];
+        displayName = prefix.split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      }
+
+      setTimeout(() => {
+        completeLogin(displayName, 'Lead Systems Auditor (Enterprise)', 'Enterprise SSO');
+      }, 650);
+    });
+  }
+
+  // 3. Toggle Password Visibility
+  if (togglePassBtn && passInput) {
+    togglePassBtn.addEventListener('click', () => {
+      const isPassword = passInput.type === 'password';
+      passInput.type = isPassword ? 'text' : 'password';
+      togglePassBtn.innerHTML = isPassword 
+        ? '<i data-lucide="eye-off" class="w-4 h-4"></i>'
+        : '<i data-lucide="eye" class="w-4 h-4"></i>';
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    });
+  }
+
+  // 4. Forgot Password Action
+  if (forgotPassBtn) {
+    forgotPassBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showToast('Encrypted token recovery dispatched to administrator node');
+    });
+  }
+
+  // 5. Sign Out / Switch Profile Action
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      loginOverlay.classList.remove('hidden-overlay');
+      showToast('Logged out of Central Core node session');
+    });
+  }
+}
+

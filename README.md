@@ -30,6 +30,13 @@ A high-performance, cyber-physical B2B Web Application dashboard interface desig
    - Blockchain-verified Carbon Credit trading ledger table (`#SYN-8842`, `#SYN-8843`, etc.).
    - Merkle root verification hash & glowing **A+ ESG Score Gauge**.
 
+7. **Enterprise Access Portal (Frontend Login Simulation)**
+   - Futuristic cyber-physical glassmorphism login portal overlay.
+   - **Google Workspace SSO** button with official multi-colored Google 'G' icon and simulated OAuth authentication delay.
+   - **Enterprise Email & Password** form with show/hide password toggle and auto-name extraction.
+   - Live **Toast Notification** upon successful login.
+   - **Sign Out / Switch Profile** button in the dashboard topbar to re-open login anytime.
+
 ## 💻 How to Run
 
 1. Open `index.html` directly in any modern browser (Google Chrome, Edge, Brave, Firefox, Safari):
