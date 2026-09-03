@@ -166,5 +166,105 @@ html {
   border-color: #1a3325;
 }
 
+/* ==========================================================================
+   MOBILE RESPONSIVENESS & TOUCH ERGONOMICS (@media max-width: 767px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* Scaled up base typography for phone readability */
+  body {
+    font-size: 15px;
+  }
+
+  /* Touch targets ergonomics (minimum 44px) */
+  button, 
+  .sidebar-tab-btn,
+  [data-switch-tab],
+  .swipe-undo-btn {
+    min-height: 44px;
+  }
+
+  /* Prevent unintended horizontal page overflow on small viewports */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Proportional heights for WebGL and 2D canvas on phone screens */
+  #molecule3d-container,
+  #factory3d-container {
+    height: 310px !important;
+  }
+
+  #logisticsMapCanvas {
+    height: 300px !important;
+  }
+
+  /* Touch scrolling smoothness */
+  main {
+    -webkit-overflow-scrolling: touch;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 1rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  /* Swipe card touch action */
+  .swipe-alert-card {
+    touch-action: pan-y;
+  }
+}
+
+/* ==========================================================================
+   SWIPE-TO-ARCHIVE STYLES
+   ========================================================================== */
+.swipe-alert-container {
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-alert-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.swipe-alert-card.swiping {
+  transition: none !important;
+}
+
+.swipe-archive-pane {
+  background: linear-gradient(90deg, rgba(7, 36, 23, 0.4) 0%, rgba(0, 255, 136, 0.22) 100%);
+  border-radius: 0.75rem;
+}
+
+.swipe-undo-pane {
+  animation: tabFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   B2B MARKETPLACE & INVENTORY ENHANCEMENTS
+   ========================================================================== */
+.market-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.market-card:hover {
+  transform: translateY(-3px);
+}
+
+#marketplaceFilterChips::-webkit-scrollbar {
+  height: 4px;
+}
+
+#marketplaceFilterChips::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#marketplaceFilterChips::-webkit-scrollbar-thumb {
+  background: #14281e;
+  border-radius: 4px;
+}
+
+
+
 
 

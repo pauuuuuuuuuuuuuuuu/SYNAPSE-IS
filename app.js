@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   safeExecute('Auth Portal', initAuth);
   safeExecute('Interactive Widgets', initInteractiveWidgets);
   safeExecute('Tab Navigation System', initTabs);
+  safeExecute('B2B Waste Marketplace', initMarketplace);
+  safeExecute('Data Storage & Inventory', initInventoryStorage);
   safeExecute('Mobile Navigation Drawer', initMobileDrawer);
   safeExecute('Swipe to Archive Alerts', initSwipeToArchive);
 });
@@ -1090,10 +1092,12 @@ function initTabs() {
   const mainContent = document.getElementById('dashboardMain') || document.querySelector('main');
 
   const tabLabels = {
+    'tab-marketplace': 'Waste-to-Value B2B Marketplace',
+    'tab-inventory': 'Data Storage & Inventory Manifests',
     'tab-dashboard': 'Executive Overview & KPIs',
-    'tab-molecular': 'Molecular AI GNN Analysis',
     'tab-logistics': 'Global Spatial Logistics Map',
     'tab-digital-twin': 'Factory Digital Twin — Plant Alpha',
+    'tab-molecular': 'Molecular AI GNN Analysis',
     'tab-sankey': 'Material Flow Analysis (Sankey)',
     'tab-carbon-ledger': 'Automated ESG & Circular Carbon Ledger'
   };
@@ -1364,6 +1368,378 @@ function initSwipeToArchive() {
         activeCount++;
         updateCounters();
       });
+    }
+  });
+}
+
+/* ==========================================================================
+   14. TOAST NOTIFICATION UTILITY
+   ========================================================================== */
+function showToast(title, message, icon = 'check-circle') {
+  let toastContainer = document.getElementById('synapseToastContainer');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'synapseToastContainer';
+    toastContainer.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full';
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'pointer-events-auto flex items-start gap-3 p-4 rounded-xl bg-[#0a1811]/95 border border-[#00ff88]/50 shadow-[0_0_25px_rgba(0,255,136,0.3)] backdrop-blur-xl transition-all duration-300 transform translate-y-4 opacity-0';
+  toast.innerHTML = `
+    <div class="p-2 rounded-lg bg-[#00ff88]/20 text-[#00ff88] shrink-0 border border-[#00ff88]/40">
+      <i data-lucide="${icon}" class="w-4 h-4"></i>
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="text-xs font-bold text-white">${title}</div>
+      <div class="text-[11px] text-slate-300 mt-0.5">${message}</div>
+    </div>
+    <button class="text-slate-400 hover:text-white p-1 text-xs cursor-pointer" onclick="this.parentElement.remove()">&times;</button>
+  `;
+
+  toastContainer.appendChild(toast);
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
+
+  requestAnimationFrame(() => {
+    toast.classList.remove('translate-y-4', 'opacity-0');
+  });
+
+  setTimeout(() => {
+    toast.classList.add('opacity-0', 'translate-y-2');
+    setTimeout(() => toast.remove(), 300);
+  }, 4500);
+}
+
+/* ==========================================================================
+   15. B2B WASTE-TO-VALUE EXCHANGE MARKETPLACE
+   ========================================================================== */
+function initMarketplace() {
+  const chips = document.querySelectorAll('.market-chip');
+  const cards = document.querySelectorAll('.market-card');
+  const searchInput = document.getElementById('marketSearchInput');
+  const sortSelect = document.getElementById('marketSortSelect');
+  const catalogGrid = document.getElementById('marketplaceCatalogGrid');
+  const claimBtn = document.getElementById('claimSubsidyBtn');
+
+  // Match Modal Elements
+  const matchModal = document.getElementById('matchModal');
+  const closeMatchModalBtn = document.getElementById('closeMatchModalBtn');
+  const cancelMatchBtn = document.getElementById('cancelMatchBtn');
+  const confirmDispatchBtn = document.getElementById('confirmDispatchBtn');
+  const matchButtons = document.querySelectorAll('.request-match-btn');
+
+  let activeMatchBtn = null;
+  let currentFilter = 'all';
+
+  // 1. Promotional Banner Claim Subsidy
+  if (claimBtn) {
+    claimBtn.addEventListener('click', () => {
+      showToast(
+        'Freight Subsidy Activated!',
+        '35% discount applied to your industrial backhauls via the Zero-Waste IKN Fund.',
+        'badge-percent'
+      );
+      claimBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i><span>SUBSIDY ACTIVE (35% OFF)</span>';
+      claimBtn.classList.remove('bg-[#00ff88]', 'hover:bg-[#00e5ff]');
+      claimBtn.classList.add('bg-emerald-500');
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    });
+  }
+
+  // 2. Filter Chips
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => {
+        c.classList.remove('active', 'bg-[#00ff88]/20', 'text-[#00ff88]', 'border-[#00ff88]/40');
+        c.classList.add('text-slate-400', 'border-transparent');
+      });
+      chip.classList.add('active', 'bg-[#00ff88]/20', 'text-[#00ff88]', 'border-[#00ff88]/40');
+      chip.classList.remove('text-slate-400', 'border-transparent');
+
+      currentFilter = chip.getAttribute('data-filter') || 'all';
+      filterAndRenderCards();
+    });
+  });
+
+  // 3. Search Filter
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      filterAndRenderCards();
+    });
+  }
+
+  function filterAndRenderCards() {
+    const query = (searchInput?.value || '').toLowerCase().trim();
+
+    cards.forEach(card => {
+      const category = card.getAttribute('data-category') || '';
+      const text = card.textContent.toLowerCase();
+
+      const matchesCategory = currentFilter === 'all' || category === currentFilter;
+      const matchesQuery = !query || text.includes(query);
+
+      if (matchesCategory && matchesQuery) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  // 4. Sort Cards
+  if (sortSelect && catalogGrid) {
+    sortSelect.addEventListener('change', () => {
+      const sortBy = sortSelect.value;
+      const cardsArr = Array.from(cards);
+
+      cardsArr.sort((a, b) => {
+        const aVal = parseFloat(a.getAttribute(`data-${sortBy}`) || 0);
+        const bVal = parseFloat(b.getAttribute(`data-${sortBy}`) || 0);
+
+        if (sortBy === 'distance') {
+          return aVal - bVal; // nearest first
+        }
+        return bVal - aVal; // highest first (volume, purity, value)
+      });
+
+      cardsArr.forEach(card => catalogGrid.appendChild(card));
+    });
+  }
+
+  // 5. Match / Empty Truck Flowchart Simulation Modal
+  matchButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      activeMatchBtn = btn;
+
+      const material = btn.getAttribute('data-material') || 'Industrial Waste';
+      const location = btn.getAttribute('data-location') || 'Cikarang Industrial Estate';
+      const volume = btn.getAttribute('data-volume') || '50 Tons';
+      const value = btn.getAttribute('data-value') || 'Rp 42.500.000';
+      const offset = btn.getAttribute('data-offset') || '+38.5 tCO₂e Avoided';
+
+      const nameEl = document.getElementById('modalMaterialName');
+      const locEl = document.getElementById('modalMaterialLocation');
+      const valEl = document.getElementById('modalMaterialValue');
+      const offEl = document.getElementById('modalMaterialOffset');
+
+      if (nameEl) nameEl.textContent = material;
+      if (locEl) locEl.textContent = `${location} • ${volume}`;
+      if (valEl) valEl.textContent = value;
+      if (offEl) offEl.textContent = offset;
+
+      if (matchModal) {
+        matchModal.classList.remove('hidden');
+        matchModal.classList.add('flex');
+      }
+    });
+  });
+
+  function closeMatchModal() {
+    if (matchModal) {
+      matchModal.classList.add('hidden');
+      matchModal.classList.remove('flex');
+    }
+  }
+
+  if (closeMatchModalBtn) closeMatchModalBtn.addEventListener('click', closeMatchModal);
+  if (cancelMatchBtn) cancelMatchBtn.addEventListener('click', closeMatchModal);
+
+  // 6. Confirm Dispatch & Lock Contract
+  if (confirmDispatchBtn) {
+    confirmDispatchBtn.addEventListener('click', () => {
+      confirmDispatchBtn.innerHTML = '<span class="inline-block w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>DISPATCHING FLEET...';
+
+      setTimeout(() => {
+        confirmDispatchBtn.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i><span>CONFIRM DISPATCH & LOCK CONTRACT</span>';
+        closeMatchModal();
+
+        if (activeMatchBtn) {
+          activeMatchBtn.innerHTML = '<i data-lucide="check-circle-2" class="w-4 h-4"></i><span>MATCH CONFIRMED (DISPATCHED)</span>';
+          activeMatchBtn.classList.remove('bg-[#00ff88]/15', 'text-[#00ff88]', 'border-[#00ff88]/30');
+          activeMatchBtn.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500/40', 'pointer-events-none');
+        }
+
+        // Add new transaction row to Inventory table
+        const tableBody = document.getElementById('inventoryTableBody');
+        const countEl = document.getElementById('inventoryRowCount');
+        if (tableBody) {
+          const txId = `#TX-2026-${Math.floor(8827 + Math.random() * 100)}`;
+          const material = activeMatchBtn?.getAttribute('data-material') || 'Steel Slag';
+          const volume = activeMatchBtn?.getAttribute('data-volume') || '50 Tons';
+          const purity = activeMatchBtn?.getAttribute('data-purity') || '92.4% Purity';
+          const location = activeMatchBtn?.getAttribute('data-location') || 'Cikarang';
+          const value = activeMatchBtn?.getAttribute('data-value') || 'Rp 42.500.000';
+          const offset = activeMatchBtn?.getAttribute('data-offset') || '+38.5 tCO₂e';
+
+          const newRow = document.createElement('tr');
+          newRow.className = 'hover:bg-[#0c1c14]/60 transition inventory-row animate-pulse';
+          newRow.setAttribute('data-status', 'In-Transit');
+          newRow.innerHTML = `
+            <td class="py-3 px-4 text-[#00ff88] font-bold flex items-center gap-1.5">
+              <span>${txId}</span>
+              <span class="text-[9px] font-mono bg-[#00ff88]/20 px-1 py-0.2 rounded text-[#00ff88]">NEW</span>
+            </td>
+            <td class="py-3 px-4">
+              <div class="text-white font-sans font-semibold">${material}</div>
+              <div class="text-[11px] text-[#00ff88]">${volume} (${purity})</div>
+            </td>
+            <td class="py-3 px-4 text-slate-300 font-sans">
+              <div>PT Source Hub</div>
+              <div class="text-[10px] text-slate-500 font-mono">${location}</div>
+            </td>
+            <td class="py-3 px-4 text-slate-300 font-sans">
+              <div>Your Manufacturing Plant</div>
+              <div class="text-[10px] text-slate-500 font-mono">Dock Gateway #1</div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cyan-400/15 text-cyan-300 border border-cyan-400/30">
+                <i data-lucide="truck" class="w-3 h-3 animate-pulse"></i> In-Transit
+              </span>
+            </td>
+            <td class="py-3 px-4 text-right">
+              <div class="text-white font-bold">${value}</div>
+              <div class="text-[10px] text-emerald-400">${offset}</div>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                View
+              </button>
+            </td>
+          `;
+
+          tableBody.insertBefore(newRow, tableBody.firstChild);
+          if (countEl) {
+            const currentCount = parseInt(countEl.textContent || '6', 10);
+            countEl.textContent = String(currentCount + 1);
+          }
+        }
+
+        showToast(
+          'Fleet Dispatched & Match Locked!',
+          'Truck #B-9142-WVC en route from Cikarang Dry Port. ETA: 12 minutes. Smart Contract verified.',
+          'truck'
+        );
+
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+          lucide.createIcons();
+        }
+      }, 700);
+    });
+  }
+}
+
+/* ==========================================================================
+   16. DATA STORAGE & INVENTORY DATABASE VIEW
+   ========================================================================== */
+function initInventoryStorage() {
+  const searchInput = document.getElementById('inventorySearchInput');
+  const statusFilter = document.getElementById('inventoryStatusFilter');
+  const countEl = document.getElementById('inventoryRowCount');
+  const exportBtn = document.getElementById('exportCsvBtn');
+
+  function filterTable() {
+    const query = (searchInput?.value || '').toLowerCase().trim();
+    const filterStatus = statusFilter?.value || 'all';
+    let visibleCount = 0;
+
+    const currentRows = document.querySelectorAll('.inventory-row');
+    currentRows.forEach(row => {
+      const status = row.getAttribute('data-status') || '';
+      const text = row.textContent.toLowerCase();
+
+      const matchesStatus = filterStatus === 'all' || status === filterStatus;
+      const matchesQuery = !query || text.includes(query);
+
+      if (matchesStatus && matchesQuery) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    if (countEl) countEl.textContent = String(visibleCount);
+  }
+
+  if (searchInput) searchInput.addEventListener('input', filterTable);
+  if (statusFilter) statusFilter.addEventListener('change', filterTable);
+
+  // Export to CSV Functionality
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      const headers = ['Transaction ID', 'Material', 'Volume & Purity', 'Source (Factory A)', 'Receiver', 'Logistics Status', 'Revenue (IDR)', 'CO2e Avoided'];
+      const rows = [];
+      const currentRows = document.querySelectorAll('.inventory-row');
+
+      currentRows.forEach(row => {
+        if (row.style.display !== 'none') {
+          const cells = row.querySelectorAll('td');
+          if (cells.length >= 6) {
+            const txId = cells[0].innerText.replace('NEW', '').trim();
+            const material = cells[1].querySelector('div:first-child')?.innerText.trim() || '';
+            const volume = cells[1].querySelector('div:last-child')?.innerText.trim() || '';
+            const source = cells[2].querySelector('div:first-child')?.innerText.trim() || '';
+            const receiver = cells[3].querySelector('div:first-child')?.innerText.trim() || '';
+            const status = cells[4].innerText.trim();
+            const revenue = cells[5].querySelector('div:first-child')?.innerText.replace(/[^0-9]/g, '') || '';
+            const offset = cells[5].querySelector('div:last-child')?.innerText.trim() || '';
+
+            rows.push([
+              `"${txId}"`,
+              `"${material}"`,
+              `"${volume}"`,
+              `"${source}"`,
+              `"${receiver}"`,
+              `"${status}"`,
+              `"${revenue}"`,
+              `"${offset}"`
+            ]);
+          }
+        }
+      });
+
+      const csvString = [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'synapse_b2b_inventory_manifests.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showToast(
+        'CSV Export Downloaded',
+        `Successfully exported ${rows.length} verified material transactions to CSV.`,
+        'file-spreadsheet'
+      );
+    });
+  }
+
+  // Copy ID & Manifest Interactivity
+  document.addEventListener('click', (e) => {
+    const copyBtn = e.target.closest('[title="Copy ID"]');
+    if (copyBtn) {
+      const parentTd = copyBtn.closest('td');
+      const txText = parentTd?.querySelector('span')?.textContent.trim() || '';
+      if (txText && navigator.clipboard) {
+        navigator.clipboard.writeText(txText).then(() => {
+          showToast('Transaction ID Copied', `${txText} copied to clipboard.`, 'copy');
+        }).catch(() => {
+          showToast('Transaction ID', txText, 'copy');
+        });
+      }
+    }
+
+    const manifestBtn = e.target.closest('.view-manifest-btn');
+    if (manifestBtn) {
+      const row = manifestBtn.closest('tr');
+      const txId = row?.querySelector('td:first-child span')?.textContent.trim() || 'Transaction';
+      showToast('Smart Manifest Verified', `Consensus ledger hash confirmed for ${txId}. SHA-256 integrity passed.`, 'file-check');
     }
   });
 }

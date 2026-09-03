@@ -241,38 +241,65 @@
 
         <!-- Navigation Links (Tab Triggers) -->
         <nav class="p-4 space-y-1.5 font-medium text-sm" id="sidebarNav">
-          <button type="button" data-tab="tab-dashboard" class="sidebar-tab-btn active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl border text-left cursor-pointer">
-            <i data-lucide="layout-grid" class="w-5 h-5 shrink-0"></i>
-            <span>Dashboard</span>
-            <span class="active-indicator ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
+          <!-- 1. B2B Exchange Marketplace (PRIMARY ACTIVE DEFAULT) -->
+          <button type="button" data-tab="tab-marketplace" class="sidebar-tab-btn active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl border text-left cursor-pointer">
+            <i data-lucide="store" class="w-5 h-5 shrink-0"></i>
+            <span>Exchange Market</span>
+            <span class="tab-badge ml-auto text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] px-2 py-0.5 rounded-full">Active</span>
+            <span class="active-indicator ml-1.5 w-2 h-2 rounded-full bg-[#00ff88]"></span>
           </button>
-          <button type="button" data-tab="tab-molecular" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
-            <i data-lucide="dna" class="w-5 h-5 shrink-0"></i>
-            <span>Molecular AI GNN</span>
+
+          <!-- 2. Data Storage & Inventory -->
+          <button type="button" data-tab="tab-inventory" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
+            <i data-lucide="database" class="w-5 h-5 shrink-0"></i>
+            <span>Data & Inventory</span>
             <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
           </button>
+
+          <!-- 3. Telemetry Overview & KPIs -->
+          <button type="button" data-tab="tab-dashboard" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
+            <i data-lucide="layout-grid" class="w-5 h-5 shrink-0"></i>
+            <span>Telemetry & KPIs</span>
+            <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
+          </button>
+
+          <!-- 4. Logistics Map -->
           <button type="button" data-tab="tab-logistics" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
             <i data-lucide="map-pin" class="w-5 h-5 shrink-0"></i>
-            <span>Logistics Map</span>
+            <span>Logistics Fleet</span>
             <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
             <span class="tab-badge ml-auto text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] px-2 py-0.5 rounded-full">48 Live</span>
           </button>
+
+          <!-- 5. Digital Twins (Secondary Background Tab) -->
           <button type="button" data-tab="tab-digital-twin" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
             <i data-lucide="box" class="w-5 h-5 shrink-0"></i>
-            <span>Digital Twins</span>
+            <span>Digital Twins (3D)</span>
             <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
           </button>
+
+          <!-- 6. Molecular AI GNN (Secondary Background Tab) -->
+          <button type="button" data-tab="tab-molecular" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
+            <i data-lucide="dna" class="w-5 h-5 shrink-0"></i>
+            <span>Molecular GNN</span>
+            <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
+          </button>
+
+          <!-- 7. Material Flows Sankey -->
           <button type="button" data-tab="tab-sankey" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
             <i data-lucide="git-merge" class="w-5 h-5 shrink-0"></i>
             <span>Material Flows</span>
             <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
           </button>
+
+          <!-- 8. ESG Ledger -->
           <button type="button" data-tab="tab-carbon-ledger" class="sidebar-tab-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 border border-transparent text-left cursor-pointer">
             <i data-lucide="file-check-2" class="w-5 h-5 shrink-0"></i>
             <span>ESG Ledger</span>
             <span class="active-indicator hidden ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
             <span class="tab-badge ml-auto text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded">A+</span>
           </button>
+
           <button type="button" id="navComplianceAudit" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325] text-left cursor-pointer">
             <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
             <span>Compliance Audit</span>
@@ -333,7 +360,7 @@
           <div class="hidden xl:flex items-center gap-2 text-xs text-slate-400 shrink-0">
             <span>Dashboard</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-600"></i>
-            <span id="breadcrumbCurrent" class="text-[#00ff88] font-mono">Executive Overview & KPIs</span>
+            <span id="breadcrumbCurrent" class="text-[#00ff88] font-mono">Waste-to-Value B2B Marketplace</span>
           </div>
         </div>
 
@@ -392,9 +419,959 @@
       <main class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6" id="dashboardMain">
 
         <!-- ========================================================
-             TAB 1: DASHBOARD / OVERVIEW
+             TAB 1: B2B MATERIAL EXCHANGE MARKETPLACE (PRIMARY DEFAULT)
              ======================================================== -->
-        <section id="tab-dashboard" class="tab-pane space-y-6">
+        <section id="tab-marketplace" class="tab-pane space-y-6">
+          
+          <!-- PROMOTIONAL & EDUCATIONAL BANNER (Zero-Waste IKN Initiative) -->
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#062416] via-[#0a3522] to-[#081b13] border border-[#00ff88]/40 p-6 shadow-[0_0_35px_rgba(0,255,136,0.18)]">
+            <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+              <div class="flex items-start gap-4">
+                <div class="p-3.5 rounded-2xl bg-[#00ff88]/20 text-[#00ff88] border border-[#00ff88]/40 shadow-[0_0_15px_rgba(0,255,136,0.3)] shrink-0">
+                  <i data-lucide="sparkles" class="w-7 h-7"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#00ff88] text-black uppercase tracking-wider">
+                      National Eco-Initiative
+                    </span>
+                    <span class="text-xs font-mono text-[#00e5ff] flex items-center gap-1">
+                      <i data-lucide="clock" class="w-3.5 h-3.5"></i> Subsidized Freight Q3–Q4 2026
+                    </span>
+                  </div>
+                  <h3 class="text-lg sm:text-xl font-bold text-white mt-1.5 flex items-center gap-2">
+                    Join the Zero-Waste IKN Industrial Symbiosis Initiative
+                  </h3>
+                  <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
+                    Access subsidized reverse-logistics freight rates & zero-emission barge backhauls connecting major Java industrial estates (Cikarang, Karawang, Cilegon) to green infrastructure projects in IKN Nusantara. Powered by the Waste4Change circular hauler network.
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 shrink-0 w-full lg:w-auto">
+                <button type="button" id="claimSubsidyBtn" class="w-full lg:w-auto px-6 py-3 rounded-xl bg-[#00ff88] hover:bg-[#00e5ff] text-black font-cyber font-bold text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(0,255,136,0.4)] flex items-center justify-center gap-2 cursor-pointer">
+                  <i data-lucide="badge-percent" class="w-4 h-4"></i>
+                  <span>CLAIM FREIGHT SUBSIDY</span>
+                </button>
+              </div>
+            </div>
+            <!-- Ambient Glow & Circuit Overlay -->
+            <div class="absolute -right-12 -bottom-12 w-80 h-80 bg-[#00ff88]/15 rounded-full blur-3xl pointer-events-none"></div>
+          </div>
+
+          <!-- Marketplace Live KPIs & Flow Ticker -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-[#091510]/80 border border-[#142e20] rounded-xl p-4 flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-[#00ff88]/15 text-[#00ff88]">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-[11px] font-mono text-slate-400">Available Near You</div>
+                <div class="text-lg font-mono font-bold text-white">6 Waste Streams</div>
+              </div>
+            </div>
+            <div class="bg-[#091510]/80 border border-[#142e20] rounded-xl p-4 flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-[#00e5ff]/15 text-[#00e5ff]">
+                <i data-lucide="truck" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-[11px] font-mono text-slate-400">Empty Haulers Nearby</div>
+                <div class="text-lg font-mono font-bold text-[#00e5ff]">38 Returning Trucks</div>
+              </div>
+            </div>
+            <div class="bg-[#091510]/80 border border-[#142e20] rounded-xl p-4 flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-amber-400/15 text-amber-400">
+                <i data-lucide="compass" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-[11px] font-mono text-slate-400">Avg Transport Radius</div>
+                <div class="text-lg font-mono font-bold text-amber-400">22.4 km</div>
+              </div>
+            </div>
+            <div class="bg-[#091510]/80 border border-[#142e20] rounded-xl p-4 flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400">
+                <i data-lucide="leaf" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-[11px] font-mono text-slate-400">Abatement Potential</div>
+                <div class="text-lg font-mono font-bold text-emerald-400">+284.2 tCO₂e</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Catalog Toolbar (Category Filter & Search) -->
+          <div class="bg-[#09120e]/90 border border-[#14281e] rounded-2xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            
+            <!-- Category Filter Chips -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0" id="marketplaceFilterChips">
+              <button type="button" data-filter="all" class="market-chip active px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition cursor-pointer bg-[#00ff88]/20 text-[#00ff88] border border-[#00ff88]/40 whitespace-nowrap">
+                All Materials
+              </button>
+              <button type="button" data-filter="metallurgical" class="market-chip px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition cursor-pointer text-slate-400 hover:text-white border border-transparent hover:border-[#173022] hover:bg-[#0c1a13] whitespace-nowrap">
+                Slag & Metals
+              </button>
+              <button type="button" data-filter="polymer" class="market-chip px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition cursor-pointer text-slate-400 hover:text-white border border-transparent hover:border-[#173022] hover:bg-[#0c1a13] whitespace-nowrap">
+                Polymers & Resins
+              </button>
+              <button type="button" data-filter="flyash" class="market-chip px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition cursor-pointer text-slate-400 hover:text-white border border-transparent hover:border-[#173022] hover:bg-[#0c1a13] whitespace-nowrap">
+                Fly Ash & Geopolymer
+              </button>
+              <button type="button" data-filter="organic" class="market-chip px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition cursor-pointer text-slate-400 hover:text-white border border-transparent hover:border-[#173022] hover:bg-[#0c1a13] whitespace-nowrap">
+                Bio-Mass & Sludge
+              </button>
+              <button type="button" data-filter="chemical" class="market-chip px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition cursor-pointer text-slate-400 hover:text-white border border-transparent hover:border-[#173022] hover:bg-[#0c1a13] whitespace-nowrap">
+                Chemical Solvents
+              </button>
+            </div>
+
+            <!-- Search & Sort Controls -->
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="relative flex-1 md:w-64">
+                <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input 
+                  type="text" 
+                  id="marketSearchInput" 
+                  placeholder="Search material or estate..." 
+                  class="w-full bg-[#050a07] border border-[#14281e] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00ff88]"
+                />
+              </div>
+              <select id="marketSortSelect" class="bg-[#050a07] border border-[#14281e] text-slate-300 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:border-[#00ff88]">
+                <option value="distance">Nearest Distance</option>
+                <option value="volume">Highest Volume</option>
+                <option value="purity">Highest Purity</option>
+                <option value="value">Highest Value</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- B2B Material Exchange Grid (Catalog Cards) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="marketplaceCatalogGrid">
+            
+            <!-- Card 1: Steel Slag -->
+            <div class="market-card bg-[#091510]/85 border border-[#142e20] hover:border-[#00ff88]/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] flex flex-col justify-between group" data-category="metallurgical" data-distance="15" data-volume="50" data-purity="92.4" data-value="42500000">
+              <div>
+                <!-- Card Header Visual -->
+                <div class="relative h-44 bg-gradient-to-br from-[#12241b] via-[#0d1c14] to-[#07100b] p-4 flex flex-col justify-between border-b border-[#14281e] overflow-hidden">
+                  <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#00ff88_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <div class="relative z-10 flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+                      METALLURGICAL
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-slate-300 backdrop-blur-sm border border-slate-700/50">
+                      Batch #SLAG-2026-91
+                    </span>
+                  </div>
+                  <div class="relative z-10 flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/30 flex items-center justify-center text-[#00ff88]">
+                      <i data-lucide="anvil" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-base font-bold text-white group-hover:text-[#00ff88] transition-colors">Steel Slag (Blast Furnace)</h4>
+                      <p class="text-xs text-slate-400">High FeO / SiO₂ Pozzolanic Aggregate</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card Body Details -->
+                <div class="p-5 space-y-3.5">
+                  <!-- Purity & Lab Assay -->
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Chemical Assay Purity:</span>
+                    <span class="text-[#00ff88] font-mono font-bold bg-[#00ff88]/10 px-2 py-0.5 rounded border border-[#00ff88]/20">92.4% Purity</span>
+                  </div>
+
+                  <!-- Location / Distance -->
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Location / Hub:</span>
+                    <span class="text-white font-medium flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                      Cikarang Industrial Estate <strong class="text-amber-400">(15km away)</strong>
+                    </span>
+                  </div>
+
+                  <!-- Source Factory -->
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Origin Producer:</span>
+                    <span class="text-slate-200">PT Krakatau Industrial Corp</span>
+                  </div>
+
+                  <!-- Volume Bar -->
+                  <div>
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                      <span class="text-slate-400">Available Volume:</span>
+                      <span class="text-white font-bold">50 Tons Available</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#102419] rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-[#00ff88] to-[#00e5ff] rounded-full" style="width: 75%"></div>
+                    </div>
+                  </div>
+
+                  <!-- Pricing & Carbon Value -->
+                  <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+                    <div>
+                      <div class="text-[10px] font-mono text-slate-400">VALUATION</div>
+                      <div class="text-sm font-mono font-bold text-white">Rp 42.500.000</div>
+                      <div class="text-[10px] font-mono text-slate-400">Rp 850.000 / Ton</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] font-mono text-[#00ff88]">EMISSIONS SAVED</div>
+                      <div class="text-xs font-mono font-bold text-emerald-400">+38.5 tCO₂e</div>
+                      <div class="text-[9px] font-mono text-slate-400">ISO 14044 Certified</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Action -->
+              <div class="p-5 pt-0">
+                <button 
+                  type="button" 
+                  class="request-match-btn w-full py-2.5 px-4 rounded-xl bg-[#00ff88]/15 hover:bg-[#00ff88] text-[#00ff88] hover:text-black font-cyber font-bold text-xs tracking-wider transition-all border border-[#00ff88]/30 hover:border-transparent flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,136,0.1)]"
+                  data-material="Steel Slag (Blast Furnace)"
+                  data-purity="92.4% Purity"
+                  data-location="Cikarang Industrial Estate (15km away)"
+                  data-volume="50 Tons"
+                  data-value="Rp 42.500.000"
+                  data-offset="+38.5 tCO₂e Avoided"
+                >
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                  <span>REQUEST MATCH / FIND EMPTY TRUCK</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2: Recycled HDPE Pellets -->
+            <div class="market-card bg-[#091510]/85 border border-[#142e20] hover:border-[#00ff88]/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] flex flex-col justify-between group" data-category="polymer" data-distance="22" data-volume="35" data-purity="98.5" data-value="385000000">
+              <div>
+                <div class="relative h-44 bg-gradient-to-br from-[#0c1f26] via-[#091920] to-[#050f14] p-4 flex flex-col justify-between border-b border-[#14281e] overflow-hidden">
+                  <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#00e5ff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <div class="relative z-10 flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-[#00e5ff]/15 text-[#00e5ff] border border-[#00e5ff]/30">
+                      INDUSTRIAL POLYMER
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-slate-300 backdrop-blur-sm border border-slate-700/50">
+                      Batch #POLY-2026-44
+                    </span>
+                  </div>
+                  <div class="relative z-10 flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#00e5ff]/10 border border-[#00e5ff]/30 flex items-center justify-center text-[#00e5ff]">
+                      <i data-lucide="recycle" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-base font-bold text-white group-hover:text-[#00e5ff] transition-colors">Recycled HDPE Pellets</h4>
+                      <p class="text-xs text-slate-400">Post-Industrial Injection Molding Grade</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Chemical Assay Purity:</span>
+                    <span class="text-[#00e5ff] font-mono font-bold bg-[#00e5ff]/10 px-2 py-0.5 rounded border border-[#00e5ff]/20">98.5% Purity</span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Location / Hub:</span>
+                    <span class="text-white font-medium flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                      MM2100 Cibitung <strong class="text-amber-400">(22km away)</strong>
+                    </span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Origin Producer:</span>
+                    <span class="text-slate-200">PT Polychem Indo Lestari</span>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                      <span class="text-slate-400">Available Volume:</span>
+                      <span class="text-white font-bold">35 Tons Available</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#102419] rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-[#00e5ff] to-blue-400 rounded-full" style="width: 60%"></div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+                    <div>
+                      <div class="text-[10px] font-mono text-slate-400">VALUATION</div>
+                      <div class="text-sm font-mono font-bold text-white">Rp 385.000.000</div>
+                      <div class="text-[10px] font-mono text-slate-400">Rp 11.000.000 / Ton</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] font-mono text-[#00e5ff]">EMISSIONS SAVED</div>
+                      <div class="text-xs font-mono font-bold text-cyan-400">+52.1 tCO₂e</div>
+                      <div class="text-[9px] font-mono text-slate-400">Chain-of-Custody Verified</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 pt-0">
+                <button 
+                  type="button" 
+                  class="request-match-btn w-full py-2.5 px-4 rounded-xl bg-[#00ff88]/15 hover:bg-[#00ff88] text-[#00ff88] hover:text-black font-cyber font-bold text-xs tracking-wider transition-all border border-[#00ff88]/30 hover:border-transparent flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,136,0.1)]"
+                  data-material="Recycled HDPE Pellets"
+                  data-purity="98.5% Purity"
+                  data-location="MM2100 Cibitung (22km away)"
+                  data-volume="35 Tons"
+                  data-value="Rp 385.000.000"
+                  data-offset="+52.1 tCO₂e Avoided"
+                >
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                  <span>REQUEST MATCH / FIND EMPTY TRUCK</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: Fly Ash Class F -->
+            <div class="market-card bg-[#091510]/85 border border-[#142e20] hover:border-[#00ff88]/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] flex flex-col justify-between group" data-category="flyash" data-distance="38" data-volume="120" data-purity="89.2" data-value="72000000">
+              <div>
+                <div class="relative h-44 bg-gradient-to-br from-[#1d1f14] via-[#14160d] to-[#0a0c06] p-4 flex flex-col justify-between border-b border-[#14281e] overflow-hidden">
+                  <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#eab308_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <div class="relative z-10 flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-amber-400/15 text-amber-400 border border-amber-400/30">
+                      GEOPOLYMER MINERAL
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-slate-300 backdrop-blur-sm border border-slate-700/50">
+                      Batch #ASH-2026-03
+                    </span>
+                  </div>
+                  <div class="relative z-10 flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                      <i data-lucide="mountain" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Fly Ash Class-F (Pozzolan)</h4>
+                      <p class="text-xs text-slate-400">Green Cement Replacement Aggregate</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Chemical Assay Purity:</span>
+                    <span class="text-amber-400 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">89.2% Active Silicate</span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Location / Hub:</span>
+                    <span class="text-white font-medium flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                      KIIC Karawang <strong class="text-amber-400">(38km away)</strong>
+                    </span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Origin Producer:</span>
+                    <span class="text-slate-200">PT Jawa Power Thermal Hub</span>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                      <span class="text-slate-400">Available Volume:</span>
+                      <span class="text-white font-bold">120 Tons Available</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#102419] rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full" style="width: 90%"></div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+                    <div>
+                      <div class="text-[10px] font-mono text-slate-400">VALUATION</div>
+                      <div class="text-sm font-mono font-bold text-white">Rp 72.000.000</div>
+                      <div class="text-[10px] font-mono text-slate-400">Rp 600.000 / Ton</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] font-mono text-amber-400">EMISSIONS SAVED</div>
+                      <div class="text-xs font-mono font-bold text-amber-300">+84.0 tCO₂e</div>
+                      <div class="text-[9px] font-mono text-slate-400">ASTM C618 Standard</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 pt-0">
+                <button 
+                  type="button" 
+                  class="request-match-btn w-full py-2.5 px-4 rounded-xl bg-[#00ff88]/15 hover:bg-[#00ff88] text-[#00ff88] hover:text-black font-cyber font-bold text-xs tracking-wider transition-all border border-[#00ff88]/30 hover:border-transparent flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,136,0.1)]"
+                  data-material="Fly Ash Class-F (Pozzolan)"
+                  data-purity="89.2% Silicate"
+                  data-location="KIIC Karawang (38km away)"
+                  data-volume="120 Tons"
+                  data-value="Rp 72.000.000"
+                  data-offset="+84.0 tCO₂e Avoided"
+                >
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                  <span>REQUEST MATCH / FIND EMPTY TRUCK</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 4: Spent Bio-Sludge -->
+            <div class="market-card bg-[#091510]/85 border border-[#142e20] hover:border-[#00ff88]/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] flex flex-col justify-between group" data-category="organic" data-distance="18" data-volume="40" data-purity="94.0" data-value="24000000">
+              <div>
+                <div class="relative h-44 bg-gradient-to-br from-[#0c2414] via-[#091b0f] to-[#040d07] p-4 flex flex-col justify-between border-b border-[#14281e] overflow-hidden">
+                  <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#22c55e_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <div class="relative z-10 flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                      ORGANIC BIO-WASTE
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-slate-300 backdrop-blur-sm border border-slate-700/50">
+                      Batch #BIO-2026-19
+                    </span>
+                  </div>
+                  <div class="relative z-10 flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                      <i data-lucide="sprout" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Spent Coffee & Bio-Cake</h4>
+                      <p class="text-xs text-slate-400">High-Calorie Biomass Briquette Feedstock</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Chemical Assay Purity:</span>
+                    <span class="text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">94.0% Organic Carbon</span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Location / Hub:</span>
+                    <span class="text-white font-medium flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                      Jababeka Phase II, Cikarang <strong class="text-amber-400">(18km away)</strong>
+                    </span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Origin Producer:</span>
+                    <span class="text-slate-200">PT Mayora Food Processing Hub</span>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                      <span class="text-slate-400">Available Volume:</span>
+                      <span class="text-white font-bold">40 Tons Available</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#102419] rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full" style="width: 50%"></div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+                    <div>
+                      <div class="text-[10px] font-mono text-slate-400">VALUATION</div>
+                      <div class="text-sm font-mono font-bold text-white">Rp 24.000.000</div>
+                      <div class="text-[10px] font-mono text-slate-400">Rp 600.000 / Ton</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] font-mono text-emerald-400">EMISSIONS SAVED</div>
+                      <div class="text-xs font-mono font-bold text-emerald-400">+28.4 tCO₂e</div>
+                      <div class="text-[9px] font-mono text-slate-400">Direct Composting / Energy</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 pt-0">
+                <button 
+                  type="button" 
+                  class="request-match-btn w-full py-2.5 px-4 rounded-xl bg-[#00ff88]/15 hover:bg-[#00ff88] text-[#00ff88] hover:text-black font-cyber font-bold text-xs tracking-wider transition-all border border-[#00ff88]/30 hover:border-transparent flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,136,0.1)]"
+                  data-material="Spent Coffee & Bio-Cake"
+                  data-purity="94.0% Organic"
+                  data-location="Jababeka Cikarang (18km away)"
+                  data-volume="40 Tons"
+                  data-value="Rp 24.000.000"
+                  data-offset="+28.4 tCO₂e Avoided"
+                >
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                  <span>REQUEST MATCH / FIND EMPTY TRUCK</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 5: Copper Slag Abrasives -->
+            <div class="market-card bg-[#091510]/85 border border-[#142e20] hover:border-[#00ff88]/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] flex flex-col justify-between group" data-category="metallurgical" data-distance="85" data-volume="80" data-purity="91.0" data-value="96000000">
+              <div>
+                <div class="relative h-44 bg-gradient-to-br from-[#26180c] via-[#1a1108] to-[#0c0703] p-4 flex flex-col justify-between border-b border-[#14281e] overflow-hidden">
+                  <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <div class="relative z-10 flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-orange-500/15 text-orange-400 border border-orange-500/30">
+                      ABRASIVE MINERAL
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-slate-300 backdrop-blur-sm border border-slate-700/50">
+                      Batch #CU-2026-72
+                    </span>
+                  </div>
+                  <div class="relative z-10 flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400">
+                      <i data-lucide="sparkle" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-base font-bold text-white group-hover:text-orange-400 transition-colors">Refined Copper Slag Abrasives</h4>
+                      <p class="text-xs text-slate-400">Shipyard Blasting & Sand Replacement</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Chemical Assay Purity:</span>
+                    <span class="text-orange-400 font-mono font-bold bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">91.0% Hardness Mohs 7</span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Location / Hub:</span>
+                    <span class="text-white font-medium flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                      Krakatau Cilegon <strong class="text-amber-400">(85km away)</strong>
+                    </span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Origin Producer:</span>
+                    <span class="text-slate-200">PT Smelting Coastal Terminal</span>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                      <span class="text-slate-400">Available Volume:</span>
+                      <span class="text-white font-bold">80 Tons Available</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#102419] rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-orange-400 to-amber-500 rounded-full" style="width: 80%"></div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+                    <div>
+                      <div class="text-[10px] font-mono text-slate-400">VALUATION</div>
+                      <div class="text-sm font-mono font-bold text-white">Rp 96.000.000</div>
+                      <div class="text-[10px] font-mono text-slate-400">Rp 1.200.000 / Ton</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] font-mono text-orange-400">EMISSIONS SAVED</div>
+                      <div class="text-xs font-mono font-bold text-orange-300">+61.2 tCO₂e</div>
+                      <div class="text-[9px] font-mono text-slate-400">ISO 11126-3 Standard</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 pt-0">
+                <button 
+                  type="button" 
+                  class="request-match-btn w-full py-2.5 px-4 rounded-xl bg-[#00ff88]/15 hover:bg-[#00ff88] text-[#00ff88] hover:text-black font-cyber font-bold text-xs tracking-wider transition-all border border-[#00ff88]/30 hover:border-transparent flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,136,0.1)]"
+                  data-material="Refined Copper Slag Abrasives"
+                  data-purity="91.0% Hardness"
+                  data-location="Krakatau Cilegon (85km away)"
+                  data-volume="80 Tons"
+                  data-value="Rp 96.000.000"
+                  data-offset="+61.2 tCO₂e Avoided"
+                >
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                  <span>REQUEST MATCH / FIND EMPTY TRUCK</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 6: Recovered Solvent Distillate -->
+            <div class="market-card bg-[#091510]/85 border border-[#142e20] hover:border-[#00ff88]/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,255,136,0.15)] flex flex-col justify-between group" data-category="chemical" data-distance="26" data-volume="25" data-purity="88.5" data-value="87500000">
+              <div>
+                <div class="relative h-44 bg-gradient-to-br from-[#1b0d26] via-[#13091c] to-[#0a040e] p-4 flex flex-col justify-between border-b border-[#14281e] overflow-hidden">
+                  <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#c084fc_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                  <div class="relative z-10 flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+                      RECOVERED CHEMICAL
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-slate-300 backdrop-blur-sm border border-slate-700/50">
+                      Batch #IPA-2026-88
+                    </span>
+                  </div>
+                  <div class="relative z-10 flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                      <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-base font-bold text-white group-hover:text-purple-400 transition-colors">Recovered Isopropyl Alcohol</h4>
+                      <p class="text-xs text-slate-400">Distilled Electronics Degreaser Grade</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-5 space-y-3.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Chemical Assay Purity:</span>
+                    <span class="text-purple-400 font-mono font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">88.5% Distillate</span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Location / Hub:</span>
+                    <span class="text-white font-medium flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                      EJIP Industrial Park <strong class="text-amber-400">(26km away)</strong>
+                    </span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Origin Producer:</span>
+                    <span class="text-slate-200">PT Indo Semiconductor Fab</span>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-mono mb-1">
+                      <span class="text-slate-400">Available Volume:</span>
+                      <span class="text-white font-bold">25 Tons (125 Drums)</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#102419] rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-purple-400 to-indigo-500 rounded-full" style="width: 45%"></div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+                    <div>
+                      <div class="text-[10px] font-mono text-slate-400">VALUATION</div>
+                      <div class="text-sm font-mono font-bold text-white">Rp 87.500.000</div>
+                      <div class="text-[10px] font-mono text-slate-400">Rp 3.500.000 / Ton</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-[10px] font-mono text-purple-400">EMISSIONS SAVED</div>
+                      <div class="text-xs font-mono font-bold text-purple-300">+19.8 tCO₂e</div>
+                      <div class="text-[9px] font-mono text-slate-400">Closed-Loop Solvent Cert</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 pt-0">
+                <button 
+                  type="button" 
+                  class="request-match-btn w-full py-2.5 px-4 rounded-xl bg-[#00ff88]/15 hover:bg-[#00ff88] text-[#00ff88] hover:text-black font-cyber font-bold text-xs tracking-wider transition-all border border-[#00ff88]/30 hover:border-transparent flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,255,136,0.1)]"
+                  data-material="Recovered Isopropyl Alcohol"
+                  data-purity="88.5% Distillate"
+                  data-location="EJIP Industrial Park (26km away)"
+                  data-volume="25 Tons"
+                  data-value="Rp 87.500.000"
+                  data-offset="+19.8 tCO₂e Avoided"
+                >
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                  <span>REQUEST MATCH / FIND EMPTY TRUCK</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- ========================================================
+             TAB 2: DATA STORAGE & INVENTORY (SIMULATED DATABASE VIEW)
+             ======================================================== -->
+        <section id="tab-inventory" class="tab-pane hidden space-y-6">
+          
+          <!-- Inventory Database Header & KPIs -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <div class="p-2 rounded-xl bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+                  <i data-lucide="database" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Data Storage & Inventory Manifests</h3>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Live Database Connection • Hyperledger Distributed Ledger Storage #JKT-NODE-04</p>
+            </div>
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <button type="button" id="exportCsvBtn" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#0c2217] hover:bg-[#123323] text-[#00ff88] border border-[#00ff88]/30 font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>EXPORT TO CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Inventory Metric Summary Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-[#091510] border border-[#142e20] rounded-xl p-4">
+              <div class="text-[11px] font-mono text-slate-400">Total Transacted Volume</div>
+              <div class="text-xl font-mono font-bold text-white mt-1">845.2 Tons</div>
+              <div class="text-[10px] text-[#00ff88] font-mono mt-0.5">&uarr; +18.4% this month</div>
+            </div>
+            <div class="bg-[#091510] border border-[#142e20] rounded-xl p-4">
+              <div class="text-[11px] font-mono text-slate-400">Active Logistics Hauls</div>
+              <div class="text-xl font-mono font-bold text-[#00e5ff] mt-1">14 In-Transit</div>
+              <div class="text-[10px] text-cyan-400 font-mono mt-0.5">Empty backhaul matched</div>
+            </div>
+            <div class="bg-[#091510] border border-[#142e20] rounded-xl p-4">
+              <div class="text-[11px] font-mono text-slate-400">Circular Economic Revenue</div>
+              <div class="text-xl font-mono font-bold text-[#00ff88] mt-1">Rp 1.485.000.000</div>
+              <div class="text-[10px] text-slate-400 font-mono mt-0.5">Audited escrow volume</div>
+            </div>
+            <div class="bg-[#091510] border border-[#142e20] rounded-xl p-4">
+              <div class="text-[11px] font-mono text-slate-400">Verified CO₂e Abated</div>
+              <div class="text-xl font-mono font-bold text-emerald-400 mt-1">1,280 tCO₂e</div>
+              <div class="text-[10px] text-emerald-400 font-mono mt-0.5">Certified on-chain</div>
+            </div>
+          </div>
+
+          <!-- Storage Table Controls (Search & Filter) -->
+          <div class="bg-[#09120e]/90 border border-[#14281e] rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input 
+                type="text" 
+                id="inventorySearchInput" 
+                placeholder="Filter by Transaction ID, Material, Factory A (Source), or Receiver..." 
+                class="w-full bg-[#050a07] border border-[#14281e] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00ff88]"
+              />
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <select id="inventoryStatusFilter" class="bg-[#050a07] border border-[#14281e] text-slate-300 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-[#00ff88]">
+                <option value="all">All Statuses</option>
+                <option value="In-Transit">In-Transit</option>
+                <option value="Processed">Processed</option>
+                <option value="Pending">Pending</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Data-Dense Storage & Inventory Table -->
+          <div class="bg-[#050a07] border border-[#14281e] rounded-2xl overflow-hidden shadow-lg">
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[840px] text-left text-xs" id="inventoryTable">
+                <thead class="bg-[#0b1812] text-[11px] font-mono text-slate-400 border-b border-[#14281e]">
+                  <tr>
+                    <th class="py-3 px-4">Transaction ID</th>
+                    <th class="py-3 px-4">Material & Volume</th>
+                    <th class="py-3 px-4">Source (Factory A)</th>
+                    <th class="py-3 px-4">Receiver (Factory B / UMKM)</th>
+                    <th class="py-3 px-4">Logistics Status</th>
+                    <th class="py-3 px-4 text-right">Green Value / Revenue</th>
+                    <th class="py-3 px-4 text-center">Manifest</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#102218] font-mono text-xs" id="inventoryTableBody">
+                  
+                  <tr class="hover:bg-[#0c1c14]/60 transition inventory-row" data-status="In-Transit">
+                    <td class="py-3 px-4 text-white font-bold flex items-center gap-1.5">
+                      <span>#TX-2026-8821</span>
+                      <button class="text-slate-500 hover:text-[#00ff88] text-[10px]" title="Copy ID"><i data-lucide="copy" class="w-3 h-3"></i></button>
+                    </td>
+                    <td class="py-3 px-4">
+                      <div class="text-slate-200 font-sans font-medium">Steel Slag Aggregate</div>
+                      <div class="text-[11px] text-[#00ff88]">50.0 Tons (92.4% Purity)</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Krakatau Steel</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Cilegon Blast Unit #2</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Semen Nusantara</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Cikarang Clinker Plant</div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cyan-400/15 text-cyan-300 border border-cyan-400/30">
+                        <i data-lucide="truck" class="w-3 h-3 animate-pulse"></i> In-Transit
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="text-white font-bold">Rp 42.500.000</div>
+                      <div class="text-[10px] text-emerald-400">+38.5 tCO₂e</div>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                        View
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-[#0c1c14]/60 transition inventory-row" data-status="Processed">
+                    <td class="py-3 px-4 text-white font-bold flex items-center gap-1.5">
+                      <span>#TX-2026-8822</span>
+                      <button class="text-slate-500 hover:text-[#00ff88] text-[10px]" title="Copy ID"><i data-lucide="copy" class="w-3 h-3"></i></button>
+                    </td>
+                    <td class="py-3 px-4">
+                      <div class="text-slate-200 font-sans font-medium">Recycled HDPE Flakes</div>
+                      <div class="text-[11px] text-[#00e5ff]">35.0 Tons (98.5% Purity)</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Polychem Indo</div>
+                      <div class="text-[10px] text-slate-500 font-mono">MM2100 Cibitung Hub</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>CV Daur Plastik Jaya (UMKM)</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Bekasi East Workshop</div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+                        <i data-lucide="check-circle-2" class="w-3 h-3"></i> Processed
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="text-white font-bold">Rp 385.000.000</div>
+                      <div class="text-[10px] text-emerald-400">+52.1 tCO₂e</div>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                        View
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-[#0c1c14]/60 transition inventory-row" data-status="In-Transit">
+                    <td class="py-3 px-4 text-white font-bold flex items-center gap-1.5">
+                      <span>#TX-2026-8823</span>
+                      <button class="text-slate-500 hover:text-[#00ff88] text-[10px]" title="Copy ID"><i data-lucide="copy" class="w-3 h-3"></i></button>
+                    </td>
+                    <td class="py-3 px-4">
+                      <div class="text-slate-200 font-sans font-medium">Fly Ash Class F</div>
+                      <div class="text-[11px] text-amber-400">120.0 Tons (89.2% Silicate)</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Jawa Power Consortium</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Paiton - Karawang Silo</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>Koperasi Paving Eco (UMKM)</div>
+                      <div class="text-[10px] text-slate-500 font-mono">KIIC Green Building Site</div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cyan-400/15 text-cyan-300 border border-cyan-400/30">
+                        <i data-lucide="truck" class="w-3 h-3 animate-pulse"></i> In-Transit
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="text-white font-bold">Rp 72.000.000</div>
+                      <div class="text-[10px] text-emerald-400">+84.0 tCO₂e</div>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                        View
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-[#0c1c14]/60 transition inventory-row" data-status="Processed">
+                    <td class="py-3 px-4 text-white font-bold flex items-center gap-1.5">
+                      <span>#TX-2026-8824</span>
+                      <button class="text-slate-500 hover:text-[#00ff88] text-[10px]" title="Copy ID"><i data-lucide="copy" class="w-3 h-3"></i></button>
+                    </td>
+                    <td class="py-3 px-4">
+                      <div class="text-slate-200 font-sans font-medium">Spent Bio-Cake Carbon</div>
+                      <div class="text-[11px] text-emerald-400">40.0 Tons (94% Carbon)</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Mayora Food Hub</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Jababeka Phase II</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Bio-Energy Nusantara</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Pelletizer Line B</div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+                        <i data-lucide="check-circle-2" class="w-3 h-3"></i> Processed
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="text-white font-bold">Rp 24.000.000</div>
+                      <div class="text-[10px] text-emerald-400">+28.4 tCO₂e</div>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                        View
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-[#0c1c14]/60 transition inventory-row" data-status="Pending">
+                    <td class="py-3 px-4 text-white font-bold flex items-center gap-1.5">
+                      <span>#TX-2026-8825</span>
+                      <button class="text-slate-500 hover:text-[#00ff88] text-[10px]" title="Copy ID"><i data-lucide="copy" class="w-3 h-3"></i></button>
+                    </td>
+                    <td class="py-3 px-4">
+                      <div class="text-slate-200 font-sans font-medium">Refined Copper Slag</div>
+                      <div class="text-[11px] text-orange-400">80.0 Tons (Hardness Mohs 7)</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Smelting Coastal Hub</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Gresik - Cilegon Depot</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Drydock Galangan Merak</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Cilegon Yard #4</div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-amber-400/15 text-amber-400 border border-amber-400/30">
+                        <i data-lucide="clock" class="w-3 h-3"></i> Pending Empty Truck
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="text-white font-bold">Rp 96.000.000</div>
+                      <div class="text-[10px] text-emerald-400">+61.2 tCO₂e</div>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                        View
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-[#0c1c14]/60 transition inventory-row" data-status="In-Transit">
+                    <td class="py-3 px-4 text-white font-bold flex items-center gap-1.5">
+                      <span>#TX-2026-8826</span>
+                      <button class="text-slate-500 hover:text-[#00ff88] text-[10px]" title="Copy ID"><i data-lucide="copy" class="w-3 h-3"></i></button>
+                    </td>
+                    <td class="py-3 px-4">
+                      <div class="text-slate-200 font-sans font-medium">Recovered Isopropyl Alcohol</div>
+                      <div class="text-[11px] text-purple-400">25.0 Tons (88.5% Purity)</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Indo Semiconductor Fab</div>
+                      <div class="text-[10px] text-slate-500 font-mono">EJIP Cikarang</div>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-sans">
+                      <div>PT Citra Cat Nusantara</div>
+                      <div class="text-[10px] text-slate-500 font-mono">Karawang Industrial Park</div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cyan-400/15 text-cyan-300 border border-cyan-400/30">
+                        <i data-lucide="truck" class="w-3 h-3 animate-pulse"></i> In-Transit
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="text-white font-bold">Rp 87.500.000</div>
+                      <div class="text-[10px] text-emerald-400">+19.8 tCO₂e</div>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <button class="view-manifest-btn px-2.5 py-1 rounded bg-[#10281c] hover:bg-[#163a28] text-slate-300 hover:text-white border border-[#1b3f2c] transition text-[11px] cursor-pointer">
+                        View
+                      </button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Table Footer Status -->
+            <div class="p-3.5 bg-[#08140e] border-t border-[#14281e] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-400">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#00ff88]"></span>
+                <span>Showing <strong class="text-white" id="inventoryRowCount">6</strong> verified transactions across Java & IKN Corridors</span>
+              </div>
+              <div class="text-[11px] text-slate-500">All manifests secured via SHA-256 Merkle root hash</div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ========================================================
+             TAB 3: DASHBOARD / EXECUTIVE OVERVIEW & TELEMETRY
+             ======================================================== -->
+        <section id="tab-dashboard" class="tab-pane hidden space-y-6">
           
           <!-- Top KPI Cards Row -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -498,6 +1475,26 @@
               <div class="kpi-glow"></div>
             </div>
 
+          </div>
+
+          <!-- Marketplace Quick Banner inside Overview -->
+          <div class="bg-[#0a1f15] border border-[#00ff88]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-[#00ff88]/20 text-[#00ff88]">
+                <i data-lucide="store" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-sm font-bold text-white flex items-center gap-2">
+                  <span>Waste-to-Value B2B Exchange Marketplace</span>
+                  <span class="text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] px-2 py-0.5 rounded">6 Active Near You</span>
+                </div>
+                <p class="text-xs text-slate-300">Discover available industrial by-products near Cikarang, Karawang, and IKN or dispatch empty haulers.</p>
+              </div>
+            </div>
+            <button type="button" data-switch-tab="tab-marketplace" class="px-4 py-2 rounded-xl bg-[#00ff88] text-black font-cyber font-bold text-xs tracking-wider hover:bg-[#00e5ff] transition shrink-0 cursor-pointer flex items-center gap-2">
+              <span>EXPLORE MARKETPLACE</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
           </div>
 
           <!-- Overview Subsystem Quick Launch Cards -->
@@ -1178,7 +2175,7 @@
           <i data-lucide="cpu" class="w-5 h-5 text-[#00ff88]"></i>
           <h3 class="text-base font-bold text-white">Digital Twin Subsystem Telemetry</h3>
         </div>
-        <button id="closeModalBtn" class="text-slate-400 hover:text-white">&times;</button>
+        <button id="closeModalBtn" class="text-slate-400 hover:text-white cursor-pointer text-lg">&times;</button>
       </div>
       <div class="py-4 space-y-3 font-mono text-xs">
         <div class="flex justify-between py-1 border-b border-[#122319]">
@@ -1195,7 +2192,98 @@
         </div>
       </div>
       <div class="pt-2 text-right">
-        <button id="closeModalBtn2" class="px-4 py-2 bg-[#00ff88] text-black font-bold rounded-xl text-xs hover:bg-[#00e5ff] transition">Acknowledge</button>
+        <button id="closeModalBtn2" class="px-4 py-2 bg-[#00ff88] text-black font-bold rounded-xl text-xs hover:bg-[#00e5ff] transition cursor-pointer">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B2B Match & Empty Fleet Dispatch Modal (Interactive Flowchart Simulation) -->
+  <div id="matchModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#0a1510] border border-[#00ff88]/50 rounded-2xl max-w-xl w-full p-6 shadow-[0_0_40px_rgba(0,255,136,0.25)] relative overflow-hidden">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-[#172c20]">
+        <div class="flex items-center gap-3">
+          <div class="p-2 rounded-xl bg-[#00ff88]/20 text-[#00ff88] border border-[#00ff88]/30">
+            <i data-lucide="truck" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span>B2B Material Match & Fleet Dispatch</span>
+              <span class="text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] px-2 py-0.5 rounded border border-[#00ff88]/30">AI Flowchart</span>
+            </h3>
+            <p class="text-xs text-slate-400">Waste-to-Value Symbiosis & Backhaul Optimization</p>
+          </div>
+        </div>
+        <button type="button" id="closeMatchModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-[#12241a] cursor-pointer text-lg">&times;</button>
+      </div>
+
+      <!-- Flowchart Steps -->
+      <div class="py-5 space-y-4">
+        <!-- Target Material Summary -->
+        <div class="p-3 bg-[#060c08] border border-[#14281e] rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="package" class="w-4 h-4 text-[#00ff88]"></i>
+            <div>
+              <div class="text-xs font-bold text-white" id="modalMaterialName">Steel Slag (Blast Furnace)</div>
+              <div class="text-[11px] font-mono text-slate-400" id="modalMaterialLocation">Cikarang Industrial Estate • 50 Tons</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-mono font-bold text-[#00ff88]" id="modalMaterialValue">Rp 42.500.000</div>
+            <div class="text-[10px] font-mono text-emerald-400" id="modalMaterialOffset">+38.5 tCO₂e Avoided</div>
+          </div>
+        </div>
+
+        <!-- 3-Step Interactive Pipeline -->
+        <div class="relative pl-6 space-y-4 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-[#00ff88] via-[#00e5ff] to-[#00ff88]/20">
+          <!-- Step 1 -->
+          <div class="relative">
+            <span class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-[#00ff88] text-black font-mono font-bold text-[10px] flex items-center justify-center shadow-[0_0_8px_#00ff88]">1</span>
+            <div class="text-xs font-semibold text-white">Smart Escrow & Lab Assay Verification</div>
+            <p class="text-[11px] text-slate-400 mt-0.5 font-mono">Assay certificate #QC-9941 verified on-chain. Mineral purity conforms to receiver manufacturing spec.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative">
+            <span class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-[#00e5ff] text-black font-mono font-bold text-[10px] flex items-center justify-center shadow-[0_0_8px_#00e5ff]">2</span>
+            <div class="text-xs font-semibold text-white flex items-center gap-2">
+              <span>Backhaul / Empty Return Hauler Detected</span>
+              <span class="text-[10px] font-mono bg-cyan-400/20 text-cyan-300 px-1.5 py-0.2 rounded">Waste4Change Fleet</span>
+            </div>
+            <div class="mt-1 p-2.5 bg-[#081711] border border-[#143224] rounded-lg text-xs font-mono text-slate-300 space-y-1">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Carrier:</span>
+                <span class="text-white font-bold">PT Trans Eco Nusantara #B-9142-WVC</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Current Status:</span>
+                <span class="text-[#00e5ff]">Returning Empty from Cikarang Dry Port</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Distance to Pickup:</span>
+                <span class="text-[#00ff88] font-bold">4.2 km (ETA: 12 Mins)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative">
+            <span class="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-[#00ff88] text-black font-mono font-bold text-[10px] flex items-center justify-center shadow-[0_0_8px_#00ff88]">3</span>
+            <div class="text-xs font-semibold text-white">Government & IKN Logistics Subsidy Applied</div>
+            <p class="text-[11px] text-emerald-400 mt-0.5 font-mono">Freight discount of 35% applied automatically via Zero-Waste National Eco Fund.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="pt-4 border-t border-[#172c20] flex items-center justify-between gap-3">
+        <button type="button" id="cancelMatchBtn" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white text-xs font-mono hover:bg-[#12241a] transition cursor-pointer">
+          Cancel
+        </button>
+        <button type="button" id="confirmDispatchBtn" class="px-5 py-2.5 rounded-xl bg-[#00ff88] hover:bg-[#00e5ff] text-black font-cyber font-bold text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(0,255,136,0.35)] flex items-center gap-2 cursor-pointer">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>CONFIRM DISPATCH & LOCK CONTRACT</span>
+        </button>
       </div>
     </div>
   </div>
