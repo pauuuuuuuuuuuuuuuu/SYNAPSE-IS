@@ -264,6 +264,41 @@ html {
   border-radius: 4px;
 }
 
+/* Landing Page Hero Animations & Glows */
+@keyframes heroGlowPulse {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.28;
+    transform: scale(1.05);
+  }
+}
+
+.hero-glow-animated {
+  animation: heroGlowPulse 6s infinite ease-in-out;
+}
+
+/* Custom Table Horizontal Scroll styling */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 5px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: #050a07;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #142d20;
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #00ff88;
+}
+
+
 
 
 

@@ -12,11 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
   safeExecute('Prediction Chart', initPredictionChart);
   safeExecute('Telemetry Simulator', initTelemetrySimulator);
   safeExecute('Modal Handlers', initModalHandlers);
-  safeExecute('Auth Portal', initAuth);
+  safeExecute('Two-Phase Auth Flow', initTwoPhaseFlow);
   safeExecute('Interactive Widgets', initInteractiveWidgets);
   safeExecute('Tab Navigation System', initTabs);
+  safeExecute('Analytics Charts', initAnalyticsCharts);
+  safeExecute('Customers & Partners CRM', initPartnersCRM);
   safeExecute('B2B Waste Marketplace', initMarketplace);
   safeExecute('Data Storage & Inventory', initInventoryStorage);
+  safeExecute('Enterprise Settings', initSettings);
   safeExecute('Mobile Navigation Drawer', initMobileDrawer);
   safeExecute('Swipe to Archive Alerts', initSwipeToArchive);
 });
@@ -1092,14 +1095,12 @@ function initTabs() {
   const mainContent = document.getElementById('dashboardMain') || document.querySelector('main');
 
   const tabLabels = {
-    'tab-marketplace': 'Waste-to-Value B2B Marketplace',
+    'tab-overview': 'Executive Overview & Sci-Fi Monitoring',
+    'tab-marketplace': 'Waste-to-Value B2B Exchange',
+    'tab-analytics': 'AI Circularity Analytics & Modeling',
+    'tab-partners': 'Committed Waste Producers & CRM',
     'tab-inventory': 'Data Storage & Inventory Manifests',
-    'tab-dashboard': 'Executive Overview & KPIs',
-    'tab-logistics': 'Global Spatial Logistics Map',
-    'tab-digital-twin': 'Factory Digital Twin — Plant Alpha',
-    'tab-molecular': 'Molecular AI GNN Analysis',
-    'tab-sankey': 'Material Flow Analysis (Sankey)',
-    'tab-carbon-ledger': 'Automated ESG & Circular Carbon Ledger'
+    'tab-settings': 'System & Enterprise Settings'
   };
 
   function switchTab(targetTabId) {
@@ -1743,4 +1744,466 @@ function initInventoryStorage() {
     }
   });
 }
+
+/* ==========================================================================
+   17. TWO-PHASE FLOW: PRE-LOGIN PUBLIC LANDING PAGE <-> ENTERPRISE DASHBOARD
+   ========================================================================== */
+function initTwoPhaseFlow() {
+  const landingPage = document.getElementById('landingPage');
+  const loginOverlay = document.getElementById('loginOverlay');
+  const dashboardWrapper = document.getElementById('dashboardWrapper');
+
+  const landingSignInBtn = document.getElementById('landingSignInBtn');
+  const heroGetStartedBtn = document.getElementById('heroGetStartedBtn');
+  const heroDemoBtn = document.getElementById('heroDemoBtn');
+  const ctaAccessBtns = document.querySelectorAll('.cta-access-btn');
+  const closeLoginModalBtn = document.getElementById('closeLoginModalBtn');
+
+  const googleLoginBtn = document.getElementById('googleLoginBtn');
+  const googleBtnText = document.getElementById('googleBtnText');
+  const emailLoginForm = document.getElementById('emailLoginForm');
+  const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+  const emailBtnText = document.getElementById('emailBtnText');
+  const loginEmailInput = document.getElementById('loginEmailInput');
+  const loginPassInput = document.getElementById('loginPassInput');
+  const togglePassBtn = document.getElementById('togglePassBtn');
+  const demoLoginBtn = document.getElementById('demoLoginBtn');
+
+  const logoutBtn = document.getElementById('logoutBtn');
+  const headerUserName = document.getElementById('headerUserName');
+  const authToast = document.getElementById('authToast');
+  const authToastMsg = document.getElementById('authToastMsg');
+  const newsletterForm = document.getElementById('landingNewsletterForm');
+
+  function openLogin() {
+    if (loginOverlay) {
+      loginOverlay.classList.remove('hidden');
+      loginOverlay.classList.add('flex');
+    }
+  }
+
+  function closeLogin() {
+    if (loginOverlay) {
+      loginOverlay.classList.add('hidden');
+      loginOverlay.classList.remove('flex');
+    }
+  }
+
+  function performLogin(userName = 'Dr. Elara Vance') {
+    if (landingPage) landingPage.classList.add('hidden');
+    if (loginOverlay) {
+      loginOverlay.classList.add('hidden');
+      loginOverlay.classList.remove('flex');
+    }
+    if (dashboardWrapper) {
+      dashboardWrapper.classList.remove('hidden');
+      dashboardWrapper.classList.add('flex');
+    }
+
+    if (headerUserName) {
+      headerUserName.textContent = userName;
+    }
+
+    // Show Auth Toast
+    if (authToast && authToastMsg) {
+      authToastMsg.textContent = `Welcome back, ${userName}`;
+      authToast.classList.remove('-translate-y-16', 'opacity-0');
+      setTimeout(() => {
+        authToast.classList.add('-translate-y-16', 'opacity-0');
+      }, 3500);
+    }
+
+    showToast(
+      'Central Core Authenticated',
+      `Enterprise session active for ${userName}. All SCADA telemetry online.`,
+      'shield-check'
+    );
+
+    // CRITICAL: Delayed resize event so Three.js, Canvas, and Chart.js recalculate dimensions
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }, 80);
+  }
+
+  function performLogout() {
+    if (dashboardWrapper) {
+      dashboardWrapper.classList.add('hidden');
+      dashboardWrapper.classList.remove('flex');
+    }
+    if (landingPage) {
+      landingPage.classList.remove('hidden');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    showToast(
+      'Session Closed',
+      'You have been securely signed out. Welcome back to the public exchange portal.',
+      'log-out'
+    );
+  }
+
+  // Pre-Login Triggers
+  if (landingSignInBtn) landingSignInBtn.addEventListener('click', openLogin);
+  if (heroGetStartedBtn) heroGetStartedBtn.addEventListener('click', openLogin);
+  ctaAccessBtns.forEach(btn => btn.addEventListener('click', openLogin));
+
+  // Quick Demo Access from Hero
+  if (heroDemoBtn) {
+    heroDemoBtn.addEventListener('click', () => {
+      performLogin('Dr. Elara Vance (Demo)');
+    });
+  }
+
+  // Close Login Modal
+  if (closeLoginModalBtn) closeLoginModalBtn.addEventListener('click', closeLogin);
+
+  if (loginOverlay) {
+    loginOverlay.addEventListener('click', (e) => {
+      if (e.target === loginOverlay) {
+        closeLogin();
+      }
+    });
+  }
+
+  // Google SSO Simulation
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener('click', () => {
+      if (googleBtnText) googleBtnText.textContent = 'Connecting Google SSO...';
+      setTimeout(() => {
+        if (googleBtnText) googleBtnText.textContent = 'Continue with Google Workspace';
+        performLogin('Dr. Elara Vance (Google Workspace)');
+      }, 500);
+    });
+  }
+
+  // Email / Password Form Submit
+  if (emailLoginForm) {
+    emailLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = loginEmailInput?.value || '';
+      let name = 'Dr. Elara Vance';
+      if (email.includes('@')) {
+        const local = email.split('@')[0];
+        name = local.split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      }
+
+      if (emailBtnText) emailBtnText.textContent = 'Authorizing Node...';
+      setTimeout(() => {
+        if (emailBtnText) emailBtnText.textContent = 'Authorize & Enter Central Core';
+        performLogin(name);
+      }, 400);
+    });
+  }
+
+  // 1-Click Demo Login Button inside Login Card
+  if (demoLoginBtn) {
+    demoLoginBtn.addEventListener('click', () => {
+      performLogin('Dr. Elara Vance (Principal Ecologist)');
+    });
+  }
+
+  // Toggle Password Visibility
+  if (togglePassBtn && loginPassInput) {
+    togglePassBtn.addEventListener('click', () => {
+      const isPassword = loginPassInput.type === 'password';
+      loginPassInput.type = isPassword ? 'text' : 'password';
+      const eyeIcon = togglePassBtn.querySelector('i');
+      if (eyeIcon) {
+        eyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      }
+    });
+  }
+
+  // Logout Trigger
+  if (logoutBtn) logoutBtn.addEventListener('click', performLogout);
+
+  // Landing Newsletter Subscription
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const emailInput = newsletterForm.querySelector('input[type="email"]');
+      const val = emailInput?.value || '';
+      if (emailInput) emailInput.value = '';
+      showToast(
+        'Subscription Confirmed',
+        `Monthly commodity intelligence briefs will be dispatched to ${val}.`,
+        'mail'
+      );
+    });
+  }
+}
+
+/* ==========================================================================
+   18. ADVANCED CHART.JS VISUALIZATIONS (Tab 3: Analytics)
+   ========================================================================== */
+function initAnalyticsCharts() {
+  if (typeof Chart === 'undefined') return;
+
+  // 1. Monthly Waste Processing Volume (Bar Chart)
+  const barCanvas = document.getElementById('analyticsBarChart');
+  if (barCanvas) {
+    new Chart(barCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Jan 2026', 'Feb 2026', 'Mar 2026', 'Apr 2026', 'May 2026', 'Jun 2026'],
+        datasets: [
+          {
+            label: 'Raw Inflow (Tons)',
+            data: [180, 210, 245, 290, 310, 340],
+            backgroundColor: 'rgba(20, 45, 33, 0.85)',
+            borderColor: '#1b3b2b',
+            borderWidth: 1.5,
+            borderRadius: 6
+          },
+          {
+            label: 'Successfully Diverted (Tons)',
+            data: [145, 178, 215, 260, 285, 312],
+            backgroundColor: 'rgba(0, 255, 136, 0.85)',
+            borderColor: '#00ff88',
+            borderWidth: 1.5,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: '#0c1813',
+            titleColor: '#00ff88',
+            bodyColor: '#ffffff',
+            borderColor: '#173626',
+            borderWidth: 1,
+            padding: 10,
+            callbacks: {
+              label: (item) => ` ${item.dataset.label}: ${item.raw} Tons`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(20, 40, 30, 0.4)' },
+            ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } }
+          },
+          y: {
+            grid: { color: 'rgba(20, 40, 30, 0.4)' },
+            ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  // 2. Success Rate vs. Residual Waste (Doughnut Chart)
+  const doughnutCanvas = document.getElementById('analyticsDoughnutChart');
+  if (doughnutCanvas) {
+    new Chart(doughnutCanvas, {
+      type: 'doughnut',
+      data: {
+        labels: ['Transacted & Diverted', 'In-Transit / Storage Buffer', 'Residual Slag / Neutralized'],
+        datasets: [{
+          data: [88, 8, 4],
+          backgroundColor: ['#00ff88', '#00e5ff', '#f59e0b'],
+          borderColor: '#09120e',
+          borderWidth: 3,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '72%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0c1813',
+            titleColor: '#00ff88',
+            bodyColor: '#ffffff',
+            borderColor: '#173626',
+            borderWidth: 1,
+            callbacks: {
+              label: (item) => ` ${item.label}: ${item.raw}%`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // 3. Carbon Offset Trajectory (Line Chart)
+  const lineCanvas = document.getElementById('analyticsLineChart');
+  if (lineCanvas) {
+    new Chart(lineCanvas, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            label: 'AI Autonomous Symbiosis Path',
+            data: [1200, 2500, 3900, 5600, 7400, 9500, 11800, 14200, 16900, 19800, 23000, 26500],
+            borderColor: '#00ff88',
+            borderWidth: 2.5,
+            fill: true,
+            backgroundColor: 'rgba(0, 255, 136, 0.08)',
+            tension: 0.35,
+            pointRadius: 3,
+            pointBackgroundColor: '#00ff88'
+          },
+          {
+            label: 'Standard Industry Baseline',
+            data: [800, 1600, 2400, 3200, 4100, 5000, 6000, 7100, 8200, 9400, 10700, 12000],
+            borderColor: '#64748b',
+            borderWidth: 1.8,
+            borderDash: [5, 5],
+            fill: false,
+            tension: 0.2,
+            pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              color: '#94a3b8',
+              font: { family: 'JetBrains Mono', size: 10 }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#0c1813',
+            titleColor: '#00ff88',
+            bodyColor: '#ffffff',
+            borderColor: '#173626',
+            borderWidth: 1,
+            callbacks: {
+              label: (item) => ` ${item.dataset.label}: ${item.raw.toLocaleString()} tCO₂e`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(20, 40, 30, 0.4)' },
+            ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } }
+          },
+          y: {
+            grid: { color: 'rgba(20, 40, 30, 0.4)' },
+            ticks: { color: '#64748b', font: { family: 'JetBrains Mono', size: 10 } }
+          }
+        }
+      }
+    });
+  }
+}
+
+/* ==========================================================================
+   19. CUSTOMERS & PARTNERS CRM (Tab 4: Partners)
+   ========================================================================== */
+function initPartnersCRM() {
+  const searchInput = document.getElementById('partnersSearchInput');
+  const statusFilter = document.getElementById('partnersStatusFilter');
+  const rows = document.querySelectorAll('.partner-row');
+  const liaisonBtns = document.querySelectorAll('.partner-action-btn');
+
+  function filterPartners() {
+    const query = (searchInput?.value || '').toLowerCase().trim();
+    const filterStatus = statusFilter?.value || 'all';
+
+    rows.forEach(row => {
+      const status = row.getAttribute('data-status') || '';
+      const text = row.textContent.toLowerCase();
+
+      const matchesStatus = filterStatus === 'all' || status === filterStatus;
+      const matchesQuery = !query || text.includes(query);
+
+      if (matchesStatus && matchesQuery) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  if (searchInput) searchInput.addEventListener('input', filterPartners);
+  if (statusFilter) statusFilter.addEventListener('change', filterPartners);
+
+  liaisonBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const row = btn.closest('.partner-row');
+      const name = row?.querySelector('td:first-child span')?.textContent.trim() || 'Partner';
+      showToast(
+        'Liaison Dispatch Active',
+        `Encrypted communications channel opened with ${name} plant manager.`,
+        'message-square'
+      );
+    });
+  });
+}
+
+/* ==========================================================================
+   20. ENTERPRISE SETTINGS (Tab 6: Settings)
+   ========================================================================== */
+function initSettings() {
+  const toggle2fa = document.getElementById('toggle2fa');
+  const saveBtn = document.getElementById('saveSettingsBtn');
+  const copyBtns = document.querySelectorAll('.copy-key-btn');
+  const downloadEsgBtn = document.getElementById('downloadEsgAuditBtn');
+
+  if (toggle2fa) {
+    toggle2fa.addEventListener('change', () => {
+      const enabled = toggle2fa.checked;
+      showToast(
+        'Security Policy Updated',
+        `Two-Factor Authentication is now ${enabled ? 'ENABLED (Hardware TOTP Active)' : 'DISABLED'}.`,
+        'shield-check'
+      );
+    });
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      showToast(
+        'Configuration Saved',
+        'System settings & compliance IDs synchronized to distributed node #JKT-04.',
+        'save'
+      );
+    });
+  }
+
+  copyBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-key') || '';
+      if (key && navigator.clipboard) {
+        navigator.clipboard.writeText(key).then(() => {
+          showToast('API Key Copied', `${key} copied to clipboard.`, 'copy');
+        }).catch(() => {
+          showToast('API Key Copied', key, 'copy');
+        });
+      } else {
+        showToast('API Key Copied', key, 'copy');
+      }
+    });
+  });
+
+  if (downloadEsgBtn) {
+    downloadEsgBtn.addEventListener('click', () => {
+      showToast(
+        'Generating ESG Audit Manifest',
+        'Compiling verified Scope 3 LCA audit package with cryptographic Merkle proof. Download ready.',
+        'file-check'
+      );
+    });
+  }
+}
+
 

@@ -4,52 +4,67 @@ A high-performance, cyber-physical B2B Web Application dashboard interface desig
 
 ## 🚀 Key Modules Built
 
-1. **B2B Material Exchange Marketplace (Primary Landing Flow)**
-   - **Promotional / Educational Banner**: Showcases the Zero-Waste IKN Industrial Symbiosis Initiative with subsidized freight backhauls and "CLAIM FREIGHT SUBSIDY" button with instant toast response.
-   - **Filter & Search Bar**: Categorized filter chips (*All, Slag & Metals, Polymers & Resins, Fly Ash & Geopolymer, Bio-Mass & Sludge, Chemical Solvents*), instant search, and multi-criteria sorting (*Distance, Volume, Purity, Valuation*).
-   - **Rich Industrial Waste Catalog**: 6 localized B2B listings (*Steel Slag, Recycled HDPE, Fly Ash Class-F, Spent Coffee Grounds, Refined Copper Slag, Recovered Isopropanol*) spanning Cikarang, Cibitung, Karawang, Cilegon, and IKN Nusantara.
-   - **Interactive Flowchart Modal ("Request Match / Find Empty Truck")**: Simulates a 3-step reverse-logistics flowchart (Lab Assay Lock &rarr; GPS Backhaul Hauler Detection &rarr; IKN Freight Subsidy &rarr; Match Dispatch confirmation), with live updates to the Inventory table.
+### 🌐 Phase 1: Public Landing Page (Pre-Login Default View)
+- **Visible on Initial Load**: The landing page is the only view visible on load; the main dashboard is completely hidden until authentication.
+- **Navbar**: Glowing cybernetic logo, smooth anchor links (*Solutions, Impact & ESG, Partners, Contact*), and a prominent **"SIGN IN / ACCESS PORTAL"** button that triggers the glassmorphism login overlay.
+- **High-Impact Hero Section**: Headline *"Transforming Manufacturing Waste into Lifetime Revenue Streams"*, subheadline, **"GET STARTED"** CTA, and **"EXPLORE LIVE DEMO"** quick-access button over an abstract high-tech background.
+- **4 Bold Impact Stats**:
+  - `500k+ Tons Diverted` (Blast furnace slag, polymers & industrial chemical fractions)
+  - `50+ Enterprise Partners` (Major heavy manufacturing conglomerates & recyclers)
+  - `Rp 120B+ Revenue Generated` (Net secondary material transactions)
+  - `A+ Avg ESG Score` (GRI & KLHK PROPER Gold standards)
+- **Solutions & Architecture Highlights**: Autonomous Molecular GNN, Zero-Empty Haul Logistics, and Audited Blockchain Carbon Ledger.
+- **Trusted Partners Marquee**: PT Krakatau Industrial, PT Polychem Indo Lestari, PT Jawa Power Thermal, Waste4Change Haulers, PT Indocement Tunggal.
+- **Footer**: Industrial Ecology Digest newsletter signup, support email (`support@synapse-is.id`), and headquarters prominently set to: **'BINUS Innovation Hub, Semarang, Indonesia'**.
 
-2. **Data Storage & Inventory Database Manifests**
-   - **Data-Dense Table**: Simulates live Hyperledger Fabric database connection with columns for *Transaction ID, Material & Volume, Source (Factory A), Receiver (Factory B / UMKM), Logistics Status, Green Report / Revenue, and Manifests*.
-   - **Search & Filter Controls**: Real-time filtering by keyword and status (*Pending, In-Transit, Processed*).
-   - **Export to CSV**: Dynamically generates and downloads real `synapse_b2b_inventory_manifests.csv` using client-side JavaScript Blob generation.
-   - **Copy Transaction IDs & Verify Manifests**: Interactive clipboard utilities and SHA-256 verification toasts.
+---
 
-3. **Top KPI Telemetry**
-   - **Circularity Index (88%)** with radial SVG arc gauge & +5.1% YoY gain.
-   - **Waste Diverted (124.5 Tons)** with dynamic sparkline bars.
-   - **Resource Utilization (92%)** with glowing spline chart.
-   - **CO₂e Savings (3,140 kg)** with live operational status indicator.
+### 🔒 Enterprise Login Portal (Glassmorphism Overlay)
+- Modal dialog with Google Workspace SSO, Enterprise Email/Password input with show/hide password toggle, and a **1-Click Demo Login** button for evaluation.
+- Authenticating seamlessly transitions the view: hides the landing page and reveals the Enterprise Dashboard, displays a welcome toast, and fires a delayed `window.dispatchEvent(new Event('resize'))` event so Canvas and 3D renderers scale with correct bounds.
 
-4. **Global Spatial Logistics Map (Reverse-Logistics Fleet)**
-   - HTML5 Canvas real-time map with interactive geo-hubs and animated bezier curved transport routes with moving cargo packets.
+---
 
-5. **Factory Digital Twin (Plant Alpha - Secondary Workstation)**
-   - Isometric **Three.js 3D simulation** of an advanced bio-refining & pyrolysis recycling facility.
-   - Interactive camera views (Isometric vs. Top-Down) and live diagnostic alerts with **Swipe-to-Archive** mobile gesture.
+### 🎛️ Phase 2: Enterprise Dashboard (Post-Login Tabbed Navigation)
 
-6. **AI Graph Neural Network (Molecular Analysis - Secondary Workstation)**
-   - Interactive **Three.js 3D ball-and-stick model** of polymer by-product structures with draggable/rotatable atoms.
+1. **Tab 1: Overview (Sci-Fi Monitoring)**
+   - **4 Top KPI Cards**: Circularity Index (88%), Waste Diverted (124.5 Tons), Resource Utilization (92%), and CO₂e Savings (3,140 kg).
+   - **3D Molecular GNN Studio**: Interactive Three.js ball-and-stick model for polymer structures with elemental breakdown (`C: 72.4%`, `H: 18.2%`, `O: 9.4%`).
+   - **Spatial Reverse-Logistics Fleet**: HTML5 Canvas map showing real-time freight corridors and returning empty haulers.
+   - **Factory Digital Twin (Plant Alpha)**: Isometric 3D cyber-physical facility with live IoT telemetry (35.4°C, 175 m³/h) and camera controls.
+   - **Subsystem Diagnostic Alerts with Swipe-to-Archive**: Touch swipe left reveals dark green `"TEMPORARY ARCHIVE"` pane with responsive `"UNDO"` recovery action and active counter updates.
 
-7. **Material Flow Analysis (Closed-Loop Sankey)**
-   - SVG-based mass balance visualization from Raw & Recycled inputs to Catalytic Reactor and Production reuse streams.
+2. **Tab 2: Marketplace / Exchange**
+   - **Zero-Waste IKN Initiative Promotional Banner**: Subsidized freight rates for Java-to-IKN Nusantara routes with interactive `"CLAIM LOGISTICS SUBSIDY"` button.
+   - **Interactive Catalog Toolbar**: Filter chips (*All, Slag & Metals, Polymers & Resins, Fly Ash & Geopolymer, Bio-Mass & Sludge, Chemical Solvents*), instant search, and sorting (*Distance, Volume, Purity, Valuation*).
+   - **6 B2B Industrial Waste Cards**: Rich listings (*Steel Slag, Recycled HDPE, Fly Ash Class-F, Spent Coffee, Copper Slag, Recovered Isopropanol*) with chemical purity assays, volume progress bars, IDR valuations, and avoided emissions.
+   - **Flowchart Simulation Modal**: 3-step pipeline (Smart Escrow &rarr; Empty Hauler Detection &rarr; IKN Subsidy &rarr; Dispatch Confirmation) that updates the inventory table in real time.
 
-8. **Automated ESG & Circular Carbon Ledger**
-   - Chart.js AI optimization trajectory curves, verified Carbon Credit trading ledger, and A+ ESG rating.
+3. **Tab 3: Analytics (Advanced Chart.js Visualizations)**
+   - **Monthly Processing Volume**: Dual-bar chart comparing Raw Inflow vs. Successfully Diverted Streams (Jan–Jun 2026).
+   - **Exchange Efficiency**: Doughnut chart showing 88% Transacted & Diverted, 8% In-Transit Buffer, and 4% Residual Slag.
+   - **Carbon Offset Abatement Trajectory**: Line chart showing AI Autonomous Symbiosis Path vs. Standard Industry Baseline.
+   - **Summary KPI Cards**: Cumulative diversion (1,420 Tons), Avoided landfill tipping fees (Rp 8.4B), and Verified ESG offset yield (12,840 tCO₂e).
 
-8. **Enterprise Access Portal (Frontend Login Simulation)**
-   - Futuristic cyber-physical glassmorphism login portal overlay.
-   - **Google Workspace SSO** button with official multi-colored Google 'G' icon and simulated OAuth authentication delay.
-   - **Enterprise Email & Password** form with show/hide password toggle and auto-name extraction.
-   - Live **Toast Notification** upon successful login.
-   - **Sign Out / Switch Profile** button in the dashboard topbar to re-open login anytime.
+4. **Tab 4: Customers & Partners (CRM)**
+   - Data table of committed industrial waste producers and recyclers.
+   - Columns: Company & Industry, Partnership Status (**'Lifetime Contract'**, **'Long-Term Match'**, **'Annual Enterprise'**), Material Type, Total Volume Exchanged, Quality Rating, Negotiated Price Tier, and Actions.
+   - Live search input and status filter dropdown with encrypted liaison dispatch toasts.
 
-9. **Mobile-Responsiveness & Swipe-to-Archive Gestures**
-   - **Off-Canvas Slide-In Drawer**: Sidebar is hidden by default on mobile (`< 768px`) and opens via top-bar hamburger button (`#mobileMenuBtn`), with backdrop blur and auto-close on selection.
-   - **Single-Column Mobile Stack (`grid-cols-1`)**: All visualization grids flow naturally without horizontal overflow.
-   - **Scaled Typography & Touch Targets**: Minimum 14px-16px font sizes and $\ge 44\text{px}$ touch targets for ergonomic phone usage.
-   - **Swipe-to-Archive Interaction**: Factory Digital Twin diagnostic alerts support tactile leftward swiping (`touchstart`/`touchmove`/`touchend` + mouse fallback), revealing a dark green `"TEMPORARY ARCHIVE"` folder pane with a responsive `"UNDO"` recovery action.
+5. **Tab 5: Reports & Inventory**
+   - Live Hyperledger Fabric database connection view.
+   - Transaction ID with copy-to-clipboard, Material & Volume, Source & Receiver, Logistics Status pills (*In-Transit, Processed, Pending*), Green Value & Revenue, and Manifest validation.
+   - **Export to CSV**: Dynamically generates and downloads real `synapse_b2b_inventory_manifests.csv` in the browser.
+   - **Download ESG Audit**: Triggers cryptographic audit manifest generation toast.
+
+6. **Tab 6: Settings (Highly Realistic Configuration)**
+   - **Account Profile**: Dr. Elara Vance avatar, Chief Industrial Ecologist role, email, and authorized mobile.
+   - **Organization Details**: PT Synapse Circular Systems, Corporate Tax NPWP (`01.884.291.4-054.000`), KLHK Compliance ID (`KLHK-PROPER-2026-GOLD-A88`), and Cikarang Hub.
+   - **Security & Access**: Two-Factor Authentication (2FA) toggle switch with instant feedback and active sessions list.
+   - **API Keys & Integrations**: SAP S/4HANA ERP, SCADA / OPC-UA, and Waste4Change webhook keys with one-click copy.
+   - **Save Configuration Button**: Commits settings to distributed node #JKT-04 with toast feedback.
+
+7. **Sign Out Action**: Topbar button securely closes the enterprise session and returns to the Public Landing Page.
 
 ## 💻 How to Run
 
