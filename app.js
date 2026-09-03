@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   safeExecute('Telemetry Simulator', initTelemetrySimulator);
   safeExecute('Modal Handlers', initModalHandlers);
   safeExecute('Auth Portal', initAuth);
+  safeExecute('Interactive Widgets', initInteractiveWidgets);
 });
 
 function safeExecute(name, fn) {
@@ -654,9 +655,42 @@ function initLogisticsMap() {
     focusBtn.addEventListener('click', () => {
       const hubNameEl = document.getElementById('tooltipHubName');
       const shipmentsEl = document.getElementById('tooltipShipments');
+      const tooltip = document.getElementById('mapTooltip');
       if (hubNameEl && shipmentsEl) {
         hubNameEl.textContent = `Hub: Rotterdam (Filtered)`;
         shipmentsEl.textContent = `48 Tracked Low-Carbon Loads`;
+        if (tooltip) tooltip.style.opacity = '1';
+      }
+    });
+  }
+
+  // Toggle Low-CO2 Route Optimization
+  const toggleGeoBtn = document.getElementById('toggleGeoRoutes');
+  let isLowCo2Active = false;
+  if (toggleGeoBtn) {
+    toggleGeoBtn.addEventListener('click', () => {
+      isLowCo2Active = !isLowCo2Active;
+      const tooltip = document.getElementById('mapTooltip');
+      const hubNameEl = document.getElementById('tooltipHubName');
+      const shipmentsEl = document.getElementById('tooltipShipments');
+
+      if (isLowCo2Active) {
+        toggleGeoBtn.classList.remove('text-slate-300', 'bg-[#0b1611]');
+        toggleGeoBtn.classList.add('text-[#00ff88]', 'bg-[#00ff88]/20', 'border-[#00ff88]/50');
+        toggleGeoBtn.textContent = 'Low-CO₂ [Active]';
+        if (hubNameEl && shipmentsEl) {
+          hubNameEl.textContent = 'Mode: Low-CO₂ Green Arcs';
+          shipmentsEl.textContent = 'Active Multi-modal Rail & Sail (-34% GHG)';
+          if (tooltip) tooltip.style.opacity = '1';
+        }
+      } else {
+        toggleGeoBtn.classList.remove('text-[#00ff88]', 'bg-[#00ff88]/20', 'border-[#00ff88]/50');
+        toggleGeoBtn.classList.add('text-slate-300', 'bg-[#0b1611]');
+        toggleGeoBtn.textContent = 'Toggle Low-CO₂';
+        if (hubNameEl && shipmentsEl) {
+          hubNameEl.textContent = 'Mode: Standard Routing';
+          shipmentsEl.textContent = '48 Active Multi-modal Shipments';
+        }
       }
     });
   }
@@ -757,12 +791,21 @@ function initTelemetrySimulator() {
 }
 
 /* ==========================================================================
-   8. MODAL HANDLERS
+   8. MODAL HANDLERS (Telemetry & Diagnostics)
    ========================================================================== */
 function initModalHandlers() {
   const modal = document.getElementById('telemetryModal');
   const closeBtn1 = document.getElementById('closeModalBtn');
   const closeBtn2 = document.getElementById('closeModalBtn2');
+  const openBtnAlerts = document.getElementById('alertTriggerBtn');
+  const openBtnIoT = document.getElementById('viewTelemetryBtn');
+
+  function openModal() {
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
 
   function closeModal() {
     if (modal) {
@@ -771,8 +814,29 @@ function initModalHandlers() {
     }
   }
 
+  // Open triggers
+  if (openBtnAlerts) openBtnAlerts.addEventListener('click', openModal);
+  if (openBtnIoT) openBtnIoT.addEventListener('click', openModal);
+
+  // Close triggers
   if (closeBtn1) closeBtn1.addEventListener('click', closeModal);
   if (closeBtn2) closeBtn2.addEventListener('click', closeModal);
+
+  // Click outside backdrop to close
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  }
+
+  // Escape key to close modal
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
 }
 
 /* ==========================================================================
@@ -900,6 +964,129 @@ function initAuth() {
     logoutBtn.addEventListener('click', () => {
       loginOverlay.classList.remove('hidden-overlay');
       showToast('Logged out of Central Core node session');
+    });
+  }
+}
+
+/* ==========================================================================
+   10. INTERACTIVE WIDGETS & SYSTEM CONTROLS
+   ========================================================================== */
+function initInteractiveWidgets() {
+  const toast = document.getElementById('authToast');
+  const toastMsg = document.getElementById('authToastMsg');
+  const mainViewport = document.querySelector('main');
+
+  function triggerToast(message) {
+    if (!toast || !toastMsg) return;
+    toastMsg.textContent = message;
+    toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-12');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-12');
+    }, 3800);
+  }
+
+  // 1. Download ESG Audit Report
+  const downloadBtn = document.getElementById('downloadEsgAuditBtn');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const originalText = downloadBtn.innerHTML;
+      downloadBtn.innerHTML = `
+        <span class="inline-flex items-center gap-1.5 text-[#00e5ff]">
+          <span class="w-3 h-3 border-2 border-[#00e5ff] border-t-transparent rounded-full animate-spin"></span>
+          Generating PDF...
+        </span>
+      `;
+      setTimeout(() => {
+        downloadBtn.innerHTML = originalText;
+        triggerToast('Report Downloaded: SYNAPSE_ESG_Audit_2026.pdf (SHA-256 Verified)');
+      }, 700);
+    });
+  }
+
+  // 2. Notification Bell System Alerts
+  const bellBtn = document.getElementById('notificationBellBtn');
+  if (bellBtn) {
+    bellBtn.addEventListener('click', () => {
+      triggerToast('System Alerts: All 14 industrial recycling units operating optimally (0 Critical Alerts)');
+    });
+  }
+
+  // 3. Quick System Status Badge
+  const statusBadge = document.getElementById('systemStatusBadge');
+  if (statusBadge) {
+    statusBadge.addEventListener('click', () => {
+      triggerToast('Network Telemetry: 99.98% Node Uptime • Consensus Protocol: Hyperledger Fabric');
+    });
+  }
+
+  // 4. Global Search Keyboard Shortcut & Input
+  const searchInput = document.getElementById('globalSearchInput');
+  const searchBadge = document.getElementById('searchShortcutBadge');
+
+  if (searchBadge && searchInput) {
+    searchBadge.addEventListener('click', () => {
+      searchInput.focus();
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey && e.key.toLowerCase() === 'k') || (e.key === '/' && document.activeElement !== searchInput)) {
+      e.preventDefault();
+      if (searchInput) searchInput.focus();
+    }
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (query) {
+          triggerToast(`Query filter applied: "${query}" — 14 matched nodes`);
+        }
+      }
+    });
+  }
+
+  // 5. Sidebar Smooth Scrolling & Active State
+  const navDashboard = document.getElementById('navDashboard');
+  const navLinks = document.querySelectorAll('.nav-smooth-link');
+
+  if (navDashboard && mainViewport) {
+    navDashboard.addEventListener('click', () => {
+      mainViewport.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      if (targetId && targetId.startsWith('#')) {
+        e.preventDefault();
+        const targetEl = document.querySelector(targetId);
+        if (targetEl && mainViewport) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+
+  // 6. Compliance Audit & System Settings
+  const navAudit = document.getElementById('navComplianceAudit');
+  const navSettings = document.getElementById('navSystemSettings');
+
+  if (navAudit) {
+    navAudit.addEventListener('click', () => {
+      triggerToast('Compliance Audit: ISO 14044 LCA & GHG Scope 1-3 Standards Verified');
+    });
+  }
+
+  if (navSettings) {
+    navSettings.addEventListener('click', () => {
+      triggerToast('System Settings: Industrial Ecology Node Configuration • Security Clearance Level 5');
     });
   }
 }

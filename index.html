@@ -234,34 +234,34 @@
 
         <!-- Navigation Links -->
         <nav class="p-4 space-y-1.5 font-medium text-sm">
-          <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/30 shadow-[0_0_15px_rgba(0,255,136,0.15)] font-semibold">
+          <a href="javascript:void(0)" id="navDashboard" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/30 shadow-[0_0_15px_rgba(0,255,136,0.15)] font-semibold transition-all">
             <i data-lucide="layout-grid" class="w-5 h-5"></i>
             <span>Dashboard</span>
             <span class="ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
           </a>
-          <a href="#molecular" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+          <a href="#molecular" class="nav-smooth-link flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
             <i data-lucide="dna" class="w-5 h-5"></i>
             <span>Molecular AI GNN</span>
           </a>
-          <a href="#logistics" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+          <a href="#logistics" class="nav-smooth-link flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
             <i data-lucide="map-pin" class="w-5 h-5"></i>
             <span>Logistics Map</span>
             <span class="ml-auto text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] px-2 py-0.5 rounded-full">48 Live</span>
           </a>
-          <a href="#digital-twin" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+          <a href="#digital-twin" class="nav-smooth-link flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
             <i data-lucide="box" class="w-5 h-5"></i>
             <span>Digital Twins</span>
           </a>
-          <a href="#sankey" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+          <a href="#sankey" class="nav-smooth-link flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
             <i data-lucide="git-merge" class="w-5 h-5"></i>
             <span>Material Flows</span>
           </a>
-          <a href="#carbon-ledger" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+          <a href="#carbon-ledger" class="nav-smooth-link flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
             <i data-lucide="file-check-2" class="w-5 h-5"></i>
             <span>ESG Ledger</span>
             <span class="ml-auto text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded">A+</span>
           </a>
-          <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+          <a href="javascript:void(0)" id="navComplianceAudit" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
             <i data-lucide="file-text" class="w-5 h-5"></i>
             <span>Compliance Audit</span>
           </a>
@@ -284,7 +284,7 @@
           </div>
         </div>
 
-        <a href="#" class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-white text-sm transition">
+        <a href="javascript:void(0)" id="navSystemSettings" class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-white text-sm transition">
           <i data-lucide="settings" class="w-4 h-4"></i>
           <span>System Settings</span>
         </a>
@@ -301,11 +301,12 @@
           <div class="relative w-full max-w-md">
             <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input 
+              id="globalSearchInput"
               type="text" 
               placeholder="Query molecular CAS, by-product streams, plants, or contracts... (Press '/' to focus)" 
               class="w-full bg-[#0d1712] border border-[#182e21] rounded-xl pl-10 pr-12 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00ff88] focus:ring-1 focus:ring-[#00ff88] transition-all"
             />
-            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-[#14241c] text-slate-400 px-1.5 py-0.5 rounded border border-[#1b3325]">Ctrl+K</span>
+            <button id="searchShortcutBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-[#14241c] hover:bg-[#1b3325] text-slate-400 px-1.5 py-0.5 rounded border border-[#1b3325] transition cursor-pointer">Ctrl+K</button>
           </div>
 
           <div class="hidden xl:flex items-center gap-2 text-xs text-slate-400">
@@ -327,13 +328,13 @@
           </div>
 
           <!-- Quick System Status Badge -->
-          <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-[#091510] border border-[#142b1f] rounded-full">
+          <div id="systemStatusBadge" class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-[#091510] border border-[#142b1f] rounded-full cursor-pointer hover:border-[#00ff88]/40 transition" title="Click to view node network latency">
             <span class="w-2 h-2 rounded-full bg-[#00ff88] shadow-[0_0_8px_#00ff88]"></span>
             <span class="text-xs font-mono text-[#00ff88]">System Status: Optimal</span>
           </div>
 
           <!-- Notification Bell -->
-          <button class="relative p-2.5 rounded-xl bg-[#0d1712] border border-[#182e21] text-slate-300 hover:text-white hover:border-[#00ff88]/50 transition">
+          <button id="notificationBellBtn" title="View Recent System Alerts" class="relative p-2.5 rounded-xl bg-[#0d1712] border border-[#182e21] text-slate-300 hover:text-[#00ff88] hover:border-[#00ff88]/50 transition">
             <i data-lucide="bell" class="w-4 h-4"></i>
             <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#00ff88] shadow-[0_0_6px_#00ff88]"></span>
           </button>
@@ -597,9 +598,9 @@
                 </div>
               </div>
               <div class="flex items-center gap-1.5">
-                <span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+                <button id="viewTelemetryBtn" class="text-[10px] font-mono bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1 cursor-pointer transition" title="Open full IoT telemetry modal">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live IoT
-                </span>
+                </button>
               </div>
             </div>
 
@@ -643,10 +644,10 @@
                 <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88]"></span>
                 <span>Operational Status: <strong class="text-[#00ff88]">Optimal / Syncing</strong></span>
               </div>
-              <div class="flex items-center gap-1.5 text-amber-400 text-[11px] font-mono bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+              <button id="alertTriggerBtn" class="flex items-center gap-1.5 text-amber-400 text-[11px] font-mono bg-amber-400/10 hover:bg-amber-400/25 px-2 py-0.5 rounded border border-amber-400/20 hover:border-amber-400/40 transition cursor-pointer" title="View subsystem diagnostic alerts">
                 <i data-lucide="alert-triangle" class="w-3 h-3"></i>
                 0 Critical Alerts
-              </div>
+              </button>
             </div>
           </div>
 
@@ -835,7 +836,7 @@
                 <i data-lucide="lock" class="w-3.5 h-3.5 text-[#00ff88]"></i>
                 Merkle Root: <code class="text-[10px] text-slate-300 font-mono">0x7f4a...92b1</code>
               </span>
-              <a href="#" class="text-[#00ff88] hover:underline font-mono text-[11px]">Download ESG Audit &rarr;</a>
+              <a href="javascript:void(0)" id="downloadEsgAuditBtn" class="text-[#00ff88] hover:text-[#00e5ff] hover:underline font-mono text-[11px] transition">Download ESG Audit &rarr;</a>
             </div>
           </div>
 
