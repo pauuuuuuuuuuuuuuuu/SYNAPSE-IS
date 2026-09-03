@@ -47,6 +47,12 @@ A high-performance, cyber-physical B2B Web Application dashboard interface desig
    - Live **Toast Notification** upon successful login.
    - **Sign Out / Switch Profile** button in the dashboard topbar to re-open login anytime.
 
+9. **Mobile-Responsiveness & Swipe-to-Archive Gestures**
+   - **Off-Canvas Slide-In Drawer**: Sidebar is hidden by default on mobile (`< 768px`) and opens via top-bar hamburger button (`#mobileMenuBtn`), with backdrop blur and auto-close on selection.
+   - **Single-Column Mobile Stack (`grid-cols-1`)**: All visualization grids flow naturally without horizontal overflow.
+   - **Scaled Typography & Touch Targets**: Minimum 14px-16px font sizes and $\ge 44\text{px}$ touch targets for ergonomic phone usage.
+   - **Swipe-to-Archive Interaction**: Factory Digital Twin diagnostic alerts support tactile leftward swiping (`touchstart`/`touchmove`/`touchend` + mouse fallback), revealing a dark green `"TEMPORARY ARCHIVE"` folder pane with a responsive `"UNDO"` recovery action.
+
 ## 💻 How to Run
 
 1. Open `index.html` directly in any modern browser (Google Chrome, Edge, Brave, Firefox, Safari):

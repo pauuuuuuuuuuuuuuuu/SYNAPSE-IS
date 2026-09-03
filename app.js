@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   safeExecute('Auth Portal', initAuth);
   safeExecute('Interactive Widgets', initInteractiveWidgets);
   safeExecute('Tab Navigation System', initTabs);
+  safeExecute('Mobile Navigation Drawer', initMobileDrawer);
+  safeExecute('Swipe to Archive Alerts', initSwipeToArchive);
 });
 
 function safeExecute(name, fn) {
@@ -1132,6 +1134,15 @@ function initTabs() {
       mainContent.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Auto-close mobile drawer on tab switch
+    const sidebar = document.getElementById('sidebarDrawer');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar && backdrop && window.innerWidth < 768) {
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
     // 6. CRITICAL FIX: Trigger window resize event after short delay
     // This recalculates WebGL and Canvas buffer dimensions for newly unhidden containers
     setTimeout(() => {
@@ -1162,6 +1173,198 @@ function initTabs() {
         switchTab(targetTabId);
       }
     });
+  });
+}
+
+/* ==========================================================================
+   12. MOBILE SIDEBAR DRAWER (Responsive Off-Canvas Navigation)
+   ========================================================================== */
+function initMobileDrawer() {
+  const menuBtn = document.getElementById('mobileMenuBtn');
+  const closeBtn = document.getElementById('closeSidebarBtn');
+  const sidebar = document.getElementById('sidebarDrawer');
+  const backdrop = document.getElementById('sidebarBackdrop');
+
+  if (!sidebar) return;
+
+  function openDrawer() {
+    sidebar.classList.remove('-translate-x-full');
+    if (backdrop) backdrop.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeDrawer() {
+    sidebar.classList.add('-translate-x-full');
+    if (backdrop) backdrop.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  if (menuBtn) menuBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      if (backdrop) backdrop.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+  });
+}
+
+/* ==========================================================================
+   13. SWIPE-TO-ARCHIVE INTERACTION (Mobile Gesture & Undo Architecture)
+   ========================================================================== */
+function initSwipeToArchive() {
+  const alertContainers = document.querySelectorAll('.swipe-alert-container');
+  const activeCounter = document.getElementById('activeAlertsCounter');
+  const triggerCounter = document.getElementById('alertTriggerCount');
+
+  let activeCount = alertContainers.length;
+
+  function updateCounters() {
+    if (activeCounter) activeCounter.textContent = `${activeCount} Active`;
+    if (triggerCounter) triggerCounter.textContent = `${activeCount} Subsystem Alerts`;
+  }
+
+  alertContainers.forEach(container => {
+    const card = container.querySelector('.swipe-alert-card');
+    const archivePane = container.querySelector('.swipe-archive-pane');
+    const undoPane = container.querySelector('.swipe-undo-pane');
+    const undoBtn = container.querySelector('.swipe-undo-btn');
+
+    if (!card || !archivePane || !undoPane) return;
+
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let isSwiping = false;
+    let isHorizontalSwipe = false;
+    const swipeThreshold = 80; // pixels to trigger archive
+
+    // Touch Handlers
+    card.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      currentX = 0;
+      isSwiping = true;
+      isHorizontalSwipe = false;
+      card.classList.add('swiping');
+    }, { passive: true });
+
+    card.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+      const touchX = e.touches[0].clientX;
+      const touchY = e.touches[0].clientY;
+      const deltaX = touchX - startX;
+      const deltaY = touchY - startY;
+
+      // Detect horizontal swipe vs vertical scroll
+      if (!isHorizontalSwipe) {
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 8) {
+          isHorizontalSwipe = true;
+        }
+      }
+
+      if (isHorizontalSwipe) {
+        // Prevent vertical scroll while performing a horizontal swipe
+        if (e.cancelable) e.preventDefault();
+
+        // Only allow swiping left (deltaX <= 0)
+        if (deltaX < 0) {
+          currentX = deltaX;
+          card.style.transform = `translateX(${deltaX}px)`;
+          const progress = Math.min(1, Math.abs(deltaX) / (swipeThreshold * 1.5));
+          archivePane.style.opacity = Math.max(0.2, progress);
+        } else {
+          // Slight resistance if dragging right
+          card.style.transform = `translateX(${deltaX * 0.2}px)`;
+        }
+      }
+    }, { passive: false });
+
+    function finishSwipe() {
+      if (!isSwiping) return;
+      isSwiping = false;
+      card.classList.remove('swiping');
+
+      // Check if swiped far enough to the left
+      if (isHorizontalSwipe && currentX < -swipeThreshold) {
+        // Complete the swipe off-screen
+        card.style.transform = 'translateX(-105%)';
+        
+        setTimeout(() => {
+          card.classList.add('hidden');
+          undoPane.classList.remove('hidden');
+          undoPane.classList.add('flex');
+          activeCount = Math.max(0, activeCount - 1);
+          updateCounters();
+        }, 220);
+      } else {
+        // Snap back
+        card.style.transform = 'translateX(0px)';
+      }
+      currentX = 0;
+      isHorizontalSwipe = false;
+    }
+
+    card.addEventListener('touchend', finishSwipe);
+    card.addEventListener('touchcancel', finishSwipe);
+
+    // Mouse Drag Emulation for desktop testing
+    let isMouseDown = false;
+    card.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      currentX = 0;
+      card.classList.add('swiping');
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      const deltaX = e.clientX - startX;
+      if (deltaX < 0) {
+        currentX = deltaX;
+        card.style.transform = `translateX(${deltaX}px)`;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (!isMouseDown) return;
+      isMouseDown = false;
+      card.classList.remove('swiping');
+
+      if (currentX < -swipeThreshold) {
+        card.style.transform = 'translateX(-105%)';
+        setTimeout(() => {
+          card.classList.add('hidden');
+          undoPane.classList.remove('hidden');
+          undoPane.classList.add('flex');
+          activeCount = Math.max(0, activeCount - 1);
+          updateCounters();
+        }, 220);
+      } else {
+        card.style.transform = 'translateX(0px)';
+      }
+      currentX = 0;
+    });
+
+    // Undo Interaction
+    if (undoBtn) {
+      undoBtn.addEventListener('click', () => {
+        undoPane.classList.add('hidden');
+        undoPane.classList.remove('flex');
+        card.classList.remove('hidden');
+        card.style.transform = 'translateX(-105%)';
+        
+        // Force reflow
+        void card.offsetWidth;
+        
+        card.style.transform = 'translateX(0px)';
+        activeCount++;
+        updateCounters();
+      });
+    }
   });
 }
 

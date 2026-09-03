@@ -214,22 +214,29 @@
 
   <div class="relative z-10 flex h-screen overflow-hidden">
     
-    <!-- LEFT SIDEBAR -->
-    <aside class="w-64 border-r border-[#14261c] bg-[#070d0a]/90 backdrop-blur-xl flex flex-col justify-between shrink-0 transition-all duration-300">
+    <!-- LEFT SIDEBAR (Mobile Drawer & Desktop Fixed) -->
+    <aside id="sidebarDrawer" class="fixed inset-y-0 left-0 z-50 w-72 bg-[#070d0a]/95 backdrop-blur-2xl border-r border-[#14261c] flex flex-col justify-between shrink-0 transform -translate-x-full transition-transform duration-300 ease-in-out md:static md:w-64 md:translate-x-0 md:flex">
       <div>
-        <!-- Brand Logo -->
-        <div class="h-20 flex items-center gap-3 px-6 border-b border-[#14261c]">
-          <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#00ff88]/20 to-[#00e5ff]/10 border border-[#00ff88]/40 shadow-[0_0_15px_rgba(0,255,136,0.25)]">
-            <i data-lucide="network" class="w-6 h-6 text-[#00ff88]"></i>
-            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00ff88] rounded-full animate-ping"></span>
-            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00ff88] rounded-full"></span>
-          </div>
-          <div>
-            <div class="font-cyber font-bold tracking-wider text-lg text-white flex items-center gap-1.5">
-              SYNAPSE<span class="text-[#00ff88]">-IS</span>
+        <!-- Brand Logo & Mobile Close -->
+        <div class="h-20 flex items-center justify-between px-6 border-b border-[#14261c]">
+          <div class="flex items-center gap-3">
+            <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#00ff88]/20 to-[#00e5ff]/10 border border-[#00ff88]/40 shadow-[0_0_15px_rgba(0,255,136,0.25)]">
+              <i data-lucide="network" class="w-6 h-6 text-[#00ff88]"></i>
+              <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00ff88] rounded-full animate-ping"></span>
+              <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00ff88] rounded-full"></span>
             </div>
-            <div class="text-[9px] font-mono tracking-widest text-[#00ff88]/70 uppercase">Industrial Ecology OS</div>
+            <div>
+              <div class="font-cyber font-bold tracking-wider text-lg text-white flex items-center gap-1.5">
+                SYNAPSE<span class="text-[#00ff88]">-IS</span>
+              </div>
+              <div class="text-[9px] font-mono tracking-widest text-[#00ff88]/70 uppercase">Industrial Ecology OS</div>
+            </div>
           </div>
+
+          <!-- Mobile Close Drawer Button -->
+          <button type="button" id="closeSidebarBtn" aria-label="Close Menu" class="md:hidden p-2 text-slate-400 hover:text-white rounded-xl hover:bg-[#13261c] transition cursor-pointer">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
         </div>
 
         <!-- Navigation Links (Tab Triggers) -->
@@ -296,25 +303,34 @@
       </div>
     </aside>
 
+    <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
+    <div id="sidebarBackdrop" class="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm hidden transition-opacity md:hidden"></div>
+
     <!-- MAIN VIEWPORT -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
       
       <!-- TOP NAVIGATION BAR -->
-      <header class="h-20 border-b border-[#14261c] bg-[#070d0a]/80 backdrop-blur-md px-8 flex items-center justify-between shrink-0 z-20">
-        <!-- Search & Breadcrumb -->
-        <div class="flex items-center gap-6 flex-1 max-w-2xl">
-          <div class="relative w-full max-w-md">
+      <header class="h-20 border-b border-[#14261c] bg-[#070d0a]/80 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between shrink-0 z-20">
+        <!-- Burger Menu & Search & Breadcrumb -->
+        <div class="flex items-center gap-2 sm:gap-6 flex-1 max-w-2xl min-w-0 mr-3 sm:mr-0">
+          
+          <!-- Burger Menu Button (Mobile) -->
+          <button type="button" id="mobileMenuBtn" aria-label="Open Navigation Drawer" class="md:hidden p-2.5 rounded-xl bg-[#0d1712] border border-[#182e21] text-slate-300 hover:text-[#00ff88] hover:border-[#00ff88]/40 transition shrink-0 cursor-pointer">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+
+          <div class="relative w-full max-w-md min-w-0">
             <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input 
               id="globalSearchInput"
               type="text" 
-              placeholder="Query molecular CAS, by-product streams, plants, or contracts... (Press '/' to focus)" 
+              placeholder="Search streams, plants... (Press '/')" 
               class="w-full bg-[#0d1712] border border-[#182e21] rounded-xl pl-10 pr-12 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00ff88] focus:ring-1 focus:ring-[#00ff88] transition-all"
             />
-            <button id="searchShortcutBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-[#14241c] hover:bg-[#1b3325] text-slate-400 px-1.5 py-0.5 rounded border border-[#1b3325] transition cursor-pointer">Ctrl+K</button>
+            <button id="searchShortcutBadge" class="hidden sm:block absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-[#14241c] hover:bg-[#1b3325] text-slate-400 px-1.5 py-0.5 rounded border border-[#1b3325] transition cursor-pointer">Ctrl+K</button>
           </div>
 
-          <div class="hidden xl:flex items-center gap-2 text-xs text-slate-400">
+          <div class="hidden xl:flex items-center gap-2 text-xs text-slate-400 shrink-0">
             <span>Dashboard</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-600"></i>
             <span id="breadcrumbCurrent" class="text-[#00ff88] font-mono">Executive Overview & KPIs</span>
@@ -322,7 +338,7 @@
         </div>
 
         <!-- Right Side: Clock, Alerts, Profile -->
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 sm:gap-6 shrink-0">
           <!-- Real-Time UTC Clock -->
           <div class="text-right hidden sm:block">
             <div class="text-[10px] font-mono text-slate-400 uppercase tracking-widest flex items-center justify-end gap-1.5">
@@ -339,13 +355,13 @@
           </div>
 
           <!-- Notification Bell -->
-          <button id="notificationBellBtn" title="View Recent System Alerts" class="relative p-2.5 rounded-xl bg-[#0d1712] border border-[#182e21] text-slate-300 hover:text-[#00ff88] hover:border-[#00ff88]/50 transition">
+          <button id="notificationBellBtn" title="View Recent System Alerts" class="relative p-2 sm:p-2.5 rounded-xl bg-[#0d1712] border border-[#182e21] text-slate-300 hover:text-[#00ff88] hover:border-[#00ff88]/50 transition">
             <i data-lucide="bell" class="w-4 h-4"></i>
             <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#00ff88] shadow-[0_0_6px_#00ff88]"></span>
           </button>
 
           <!-- User Profile & Logout -->
-          <div class="flex items-center gap-3 pl-3 border-l border-[#14261c]">
+          <div class="flex items-center gap-2 sm:gap-3 pl-2 sm:pl-3 border-l border-[#14261c]">
             <img 
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" 
               alt="Dr. Elara Vance" 
@@ -772,8 +788,180 @@
               </div>
               <button id="alertTriggerBtn" class="flex items-center gap-1.5 text-amber-400 text-xs font-mono bg-amber-400/10 hover:bg-amber-400/25 px-3 py-1 rounded-lg border border-amber-400/20 hover:border-amber-400/40 transition cursor-pointer" title="View subsystem diagnostic alerts">
                 <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
-                0 Critical Alerts
+                <span id="alertTriggerCount">3 Subsystem Alerts</span>
               </button>
+            </div>
+
+            <!-- Subsystem Diagnostic Alerts with Swipe-to-Archive (Mobile & Touch Optimized) -->
+            <div class="mt-6 pt-5 border-t border-[#14281e]" id="digitalTwinAlertsSection">
+              <div class="flex items-center justify-between mb-3.5 flex-wrap gap-2">
+                <div class="flex items-center gap-2.5">
+                  <div class="p-1.5 rounded-lg bg-amber-400/15 text-amber-400 border border-amber-400/30">
+                    <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-white">Subsystem Diagnostic Alerts</h4>
+                    <p class="text-xs text-slate-400 flex items-center gap-1.5">
+                      <span>Real-time industrial anomalies</span>
+                      <span class="text-[#00ff88] font-mono font-medium hidden sm:inline">• Swipe card left to archive &larr;</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="activeAlertsCounter" class="text-xs font-mono bg-amber-400/10 text-amber-400 px-2.5 py-1 rounded-full border border-amber-400/25">
+                    3 Active
+                  </span>
+                </div>
+              </div>
+
+              <!-- Mobile Hint Pill -->
+              <div class="sm:hidden mb-3 p-2 bg-[#06150e] border border-[#122e20] rounded-lg text-xs font-mono text-emerald-400 flex items-center gap-2">
+                <i data-lucide="info" class="w-3.5 h-3.5 text-[#00ff88]"></i>
+                <span>Swipe left on any alert card to archive</span>
+              </div>
+
+              <!-- Swipeable Alert Cards -->
+              <div class="space-y-3" id="swipeAlertList">
+                
+                <!-- Alert 1 -->
+                <div class="swipe-alert-container relative overflow-hidden rounded-xl border border-[#14281e] bg-[#050a07]" data-alert-id="alert-1">
+                  <!-- Hidden dark green background pane revealed on swipe left -->
+                  <div class="swipe-archive-pane absolute inset-0 flex items-center justify-end pr-6 text-[#00ff88] font-mono text-xs font-bold gap-2 select-none">
+                    <i data-lucide="folder-archive" class="w-5 h-5"></i>
+                    <span class="tracking-wider">TEMPORARY ARCHIVE</span>
+                  </div>
+
+                  <!-- Front card that moves with finger swipe -->
+                  <div class="swipe-alert-card relative bg-[#091510] p-4 flex items-center justify-between cursor-grab active:cursor-grabbing select-none">
+                    <div class="flex items-start gap-3">
+                      <div class="p-2.5 rounded-xl bg-amber-400/15 text-amber-400 border border-amber-400/25 shrink-0">
+                        <i data-lucide="thermometer" class="w-4 h-4"></i>
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="text-sm font-semibold text-white">Chamber 2 Pyrolysis Thermal Excursion</span>
+                          <span class="text-[10px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">Critical</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Core temperature at 412.5°C (+8.2% baseline). Automated secondary cooling bypass engaged.</p>
+                        <div class="flex items-center gap-3 text-xs font-mono text-slate-400 mt-2">
+                          <span>Sensor: #PLC-TH02</span>
+                          <span>•</span>
+                          <span>14:02 UTC</span>
+                          <span>•</span>
+                          <span class="text-[#00ff88] sm:hidden">&larr; Swipe left</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-400 shrink-0 pl-3">
+                      <span class="text-[11px] text-[#00ff88]/80">Swipe left</span>
+                      <i data-lucide="chevron-left" class="w-4 h-4 text-slate-500"></i>
+                    </div>
+                  </div>
+
+                  <!-- Placeholder row that appears upon completing the swipe -->
+                  <div class="swipe-undo-pane hidden p-3.5 bg-[#0a1f14] border-t border-[#1a3827] flex items-center justify-between text-xs font-mono text-slate-200">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="folder-check" class="w-4 h-4 text-[#00ff88]"></i>
+                      <span>Alert Archived</span>
+                    </div>
+                    <button type="button" class="swipe-undo-btn px-3 py-1.5 bg-[#00ff88]/20 hover:bg-[#00ff88]/30 text-[#00ff88] border border-[#00ff88]/40 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5">
+                      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                      UNDO
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Alert 2 -->
+                <div class="swipe-alert-container relative overflow-hidden rounded-xl border border-[#14281e] bg-[#050a07]" data-alert-id="alert-2">
+                  <div class="swipe-archive-pane absolute inset-0 flex items-center justify-end pr-6 text-[#00ff88] font-mono text-xs font-bold gap-2 select-none">
+                    <i data-lucide="folder-archive" class="w-5 h-5"></i>
+                    <span class="tracking-wider">TEMPORARY ARCHIVE</span>
+                  </div>
+
+                  <div class="swipe-alert-card relative bg-[#091510] p-4 flex items-center justify-between cursor-grab active:cursor-grabbing select-none">
+                    <div class="flex items-start gap-3">
+                      <div class="p-2.5 rounded-xl bg-[#00e5ff]/15 text-[#00e5ff] border border-[#00e5ff]/25 shrink-0">
+                        <i data-lucide="droplets" class="w-4 h-4"></i>
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="text-sm font-semibold text-white">Catalytic Solvent Stream B Viscosity</span>
+                          <span class="text-[10px] font-mono text-[#00e5ff] bg-[#00e5ff]/10 px-2 py-0.5 rounded border border-[#00e5ff]/20">Notice</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Solvent viscosity deviation detected at 1.42 cP. Auto-balancing recirculation valve active.</p>
+                        <div class="flex items-center gap-3 text-xs font-mono text-slate-400 mt-2">
+                          <span>Sensor: #VISCO-88</span>
+                          <span>•</span>
+                          <span>13:55 UTC</span>
+                          <span>•</span>
+                          <span class="text-[#00ff88] sm:hidden">&larr; Swipe left</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-400 shrink-0 pl-3">
+                      <span class="text-[11px] text-[#00ff88]/80">Swipe left</span>
+                      <i data-lucide="chevron-left" class="w-4 h-4 text-slate-500"></i>
+                    </div>
+                  </div>
+
+                  <div class="swipe-undo-pane hidden p-3.5 bg-[#0a1f14] border-t border-[#1a3827] flex items-center justify-between text-xs font-mono text-slate-200">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="folder-check" class="w-4 h-4 text-[#00ff88]"></i>
+                      <span>Alert Archived</span>
+                    </div>
+                    <button type="button" class="swipe-undo-btn px-3 py-1.5 bg-[#00ff88]/20 hover:bg-[#00ff88]/30 text-[#00ff88] border border-[#00ff88]/40 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5">
+                      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                      UNDO
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Alert 3 -->
+                <div class="swipe-alert-container relative overflow-hidden rounded-xl border border-[#14281e] bg-[#050a07]" data-alert-id="alert-3">
+                  <div class="swipe-archive-pane absolute inset-0 flex items-center justify-end pr-6 text-[#00ff88] font-mono text-xs font-bold gap-2 select-none">
+                    <i data-lucide="folder-archive" class="w-5 h-5"></i>
+                    <span class="tracking-wider">TEMPORARY ARCHIVE</span>
+                  </div>
+
+                  <div class="swipe-alert-card relative bg-[#091510] p-4 flex items-center justify-between cursor-grab active:cursor-grabbing select-none">
+                    <div class="flex items-start gap-3">
+                      <div class="p-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 shrink-0">
+                        <i data-lucide="gauge" class="w-4 h-4"></i>
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="text-sm font-semibold text-white">Bio-Scrubber Filter Differential Delta</span>
+                          <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Maintenance</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-1">Particulate filter pressure differential at 14.2 kPa. Scheduled wash cycle queued.</p>
+                        <div class="flex items-center gap-3 text-xs font-mono text-slate-400 mt-2">
+                          <span>Sensor: #DIFF-014</span>
+                          <span>•</span>
+                          <span>13:42 UTC</span>
+                          <span>•</span>
+                          <span class="text-[#00ff88] sm:hidden">&larr; Swipe left</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-400 shrink-0 pl-3">
+                      <span class="text-[11px] text-[#00ff88]/80">Swipe left</span>
+                      <i data-lucide="chevron-left" class="w-4 h-4 text-slate-500"></i>
+                    </div>
+                  </div>
+
+                  <div class="swipe-undo-pane hidden p-3.5 bg-[#0a1f14] border-t border-[#1a3827] flex items-center justify-between text-xs font-mono text-slate-200">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="folder-check" class="w-4 h-4 text-[#00ff88]"></i>
+                      <span>Alert Archived</span>
+                    </div>
+                    <button type="button" class="swipe-undo-btn px-3 py-1.5 bg-[#00ff88]/20 hover:bg-[#00ff88]/30 text-[#00ff88] border border-[#00ff88]/40 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5">
+                      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                      UNDO
+                    </button>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
         </section>
@@ -908,9 +1096,9 @@
                 <!-- Carbon Table & ESG Gauge (7 cols) -->
                 <div class="lg:col-span-7 flex flex-col justify-between gap-4">
                   
-                  <!-- Carbon Ledger Table -->
-                  <div class="bg-[#050a07] border border-[#122219] rounded-xl overflow-hidden">
-                    <table class="w-full text-left text-xs">
+                  <!-- Carbon Ledger Table (Responsive Scroll) -->
+                  <div class="bg-[#050a07] border border-[#122219] rounded-xl overflow-x-auto">
+                    <table class="w-full min-w-[380px] text-left text-xs">
                       <thead class="bg-[#0c1712] text-[11px] font-mono text-slate-400 border-b border-[#14281e]">
                         <tr>
                           <th class="py-2.5 px-4">Batch ID</th>
