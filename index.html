@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYNAPSE-IS — Industrial Ecology & Waste-to-Value Exchange</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#060a08',
+              card: '#0a100d',
+              border: '#13231a',
+              glow: '#00ff88',
+              cyan: '#00e5ff',
+              emerald: '#10b981',
+              muted: '#64748b'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            cyber: ['Orbitron', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons & External CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-[#050807] text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-brand-glow selection:text-black">
+
+  <!-- Ambient Cyber Background Grid & Particles -->
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(0,255,136,0.12),rgba(255,255,255,0))]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(#14261d_1px,transparent_1px)] [background-size:24px_24px] opacity-25"></div>
+  </div>
+
+  <div class="relative z-10 flex h-screen overflow-hidden">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 border-r border-[#14261c] bg-[#070d0a]/90 backdrop-blur-xl flex flex-col justify-between shrink-0 transition-all duration-300">
+      <div>
+        <!-- Brand Logo -->
+        <div class="h-20 flex items-center gap-3 px-6 border-b border-[#14261c]">
+          <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-[#00ff88]/20 to-[#00e5ff]/10 border border-[#00ff88]/40 shadow-[0_0_15px_rgba(0,255,136,0.25)]">
+            <i data-lucide="network" class="w-6 h-6 text-[#00ff88]"></i>
+            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00ff88] rounded-full animate-ping"></span>
+            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00ff88] rounded-full"></span>
+          </div>
+          <div>
+            <div class="font-cyber font-bold tracking-wider text-lg text-white flex items-center gap-1.5">
+              SYNAPSE<span class="text-[#00ff88]">-IS</span>
+            </div>
+            <div class="text-[9px] font-mono tracking-widest text-[#00ff88]/70 uppercase">Industrial Ecology OS</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="p-4 space-y-1.5 font-medium text-sm">
+          <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/30 shadow-[0_0_15px_rgba(0,255,136,0.15)] font-semibold">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+            <span class="ml-auto w-2 h-2 rounded-full bg-[#00ff88]"></span>
+          </a>
+          <a href="#molecular" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+            <i data-lucide="dna" class="w-5 h-5"></i>
+            <span>Molecular AI GNN</span>
+          </a>
+          <a href="#logistics" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+            <i data-lucide="map-pin" class="w-5 h-5"></i>
+            <span>Logistics Map</span>
+            <span class="ml-auto text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] px-2 py-0.5 rounded-full">48 Live</span>
+          </a>
+          <a href="#digital-twin" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+            <i data-lucide="box" class="w-5 h-5"></i>
+            <span>Digital Twins</span>
+          </a>
+          <a href="#sankey" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+            <i data-lucide="git-merge" class="w-5 h-5"></i>
+            <span>Material Flows</span>
+          </a>
+          <a href="#carbon-ledger" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+            <i data-lucide="file-check-2" class="w-5 h-5"></i>
+            <span>ESG Ledger</span>
+            <span class="ml-auto text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded">A+</span>
+          </a>
+          <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#0f1d16] transition-all border border-transparent hover:border-[#1a3325]">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+            <span>Compliance Audit</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Footer / Node Status -->
+      <div class="p-4 border-t border-[#14261c] space-y-3">
+        <div class="bg-[#0b1410] border border-[#172d21] rounded-xl p-3">
+          <div class="flex items-center justify-between text-xs mb-1.5">
+            <span class="text-slate-400">Node Sync</span>
+            <span class="text-[#00ff88] font-mono">99.98%</span>
+          </div>
+          <div class="w-full bg-[#122219] h-1.5 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-[#00ff88] to-[#00e5ff] h-full rounded-full" style="width: 99.98%"></div>
+          </div>
+          <div class="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
+            <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88] animate-pulse"></span>
+            <span>Consensus: Hyperledger</span>
+          </div>
+        </div>
+
+        <a href="#" class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:text-white text-sm transition">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>System Settings</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEWPORT -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="h-20 border-b border-[#14261c] bg-[#070d0a]/80 backdrop-blur-md px-8 flex items-center justify-between shrink-0 z-20">
+        <!-- Search & Breadcrumb -->
+        <div class="flex items-center gap-6 flex-1 max-w-2xl">
+          <div class="relative w-full max-w-md">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              placeholder="Query molecular CAS, by-product streams, plants, or contracts... (Press '/' to focus)" 
+              class="w-full bg-[#0d1712] border border-[#182e21] rounded-xl pl-10 pr-12 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00ff88] focus:ring-1 focus:ring-[#00ff88] transition-all"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-[#14241c] text-slate-400 px-1.5 py-0.5 rounded border border-[#1b3325]">Ctrl+K</span>
+          </div>
+
+          <div class="hidden xl:flex items-center gap-2 text-xs text-slate-400">
+            <span>Dashboard</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-600"></i>
+            <span class="text-[#00ff88]">Waste-to-Value AI Engine</span>
+          </div>
+        </div>
+
+        <!-- Right Side: Clock, Alerts, Profile -->
+        <div class="flex items-center gap-6">
+          <!-- Real-Time UTC Clock -->
+          <div class="text-right hidden sm:block">
+            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-widest flex items-center justify-end gap-1.5">
+              <span>Real-Time UTC</span>
+              <span class="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse"></span>
+            </div>
+            <div id="utc-clock" class="text-sm font-mono font-bold text-white tracking-wider">00:00:00 UTC</div>
+          </div>
+
+          <!-- Quick System Status Badge -->
+          <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-[#091510] border border-[#142b1f] rounded-full">
+            <span class="w-2 h-2 rounded-full bg-[#00ff88] shadow-[0_0_8px_#00ff88]"></span>
+            <span class="text-xs font-mono text-[#00ff88]">System Status: Optimal</span>
+          </div>
+
+          <!-- Notification Bell -->
+          <button class="relative p-2.5 rounded-xl bg-[#0d1712] border border-[#182e21] text-slate-300 hover:text-white hover:border-[#00ff88]/50 transition">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#00ff88] shadow-[0_0_6px_#00ff88]"></span>
+          </button>
+
+          <!-- User Profile -->
+          <div class="flex items-center gap-3 pl-3 border-l border-[#14261c]">
+            <img 
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" 
+              alt="Dr. Elara Vance" 
+              class="w-10 h-10 rounded-xl object-cover border border-[#00ff88]/40 shadow-[0_0_10px_rgba(0,255,136,0.2)]"
+            />
+            <div class="hidden md:block">
+              <div class="text-xs font-semibold text-white flex items-center gap-1">
+                Dr. Elara Vance
+                <i data-lucide="badge-check" class="w-3.5 h-3.5 text-[#00ff88]"></i>
+              </div>
+              <div class="text-[11px] text-slate-400 font-mono">Chief Ecologist (Admin)</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD CONTENT AREA -->
+      <main class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
+
+        <!-- 1. TOP KPI CARDS ROW -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          
+          <!-- KPI 1: Circularity Index -->
+          <div class="kpi-card relative overflow-hidden bg-[#09120e]/80 border border-[#14281e] hover:border-[#00ff88]/50 rounded-2xl p-5 backdrop-blur-sm transition-all duration-300 group">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400">Circularity Index</span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +5.1%
+              </span>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <div>
+                <div class="text-3xl font-cyber font-black tracking-tight text-white flex items-baseline gap-1">
+                  88<span class="text-lg text-[#00ff88]">%</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">Target: 95% by Q4</div>
+              </div>
+              <!-- Radial Mini Arc -->
+              <div class="relative w-16 h-16">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path class="text-[#13261c]" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="text-[#00ff88] drop-shadow-[0_0_8px_#00ff88]" stroke-dasharray="88, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <span class="absolute inset-0 flex items-center justify-center text-[10px] font-mono text-[#00ff88] font-bold">88%</span>
+              </div>
+            </div>
+            <div class="kpi-glow"></div>
+          </div>
+
+          <!-- KPI 2: Waste Diverted -->
+          <div class="kpi-card relative overflow-hidden bg-[#09120e]/80 border border-[#14281e] hover:border-[#00ff88]/50 rounded-2xl p-5 backdrop-blur-sm transition-all duration-300 group">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400">Waste Diverted</span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/30">
+                <i data-lucide="arrow-up-right" class="w-3 h-3"></i> +12% MoM
+              </span>
+            </div>
+            <div class="mt-4 flex items-end justify-between">
+              <div>
+                <div class="text-3xl font-cyber font-black tracking-tight text-white">
+                  124.5 <span class="text-xs font-sans font-normal text-slate-400">Tons</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">Polymer & Slag Streams</div>
+              </div>
+              <!-- Mini Bar Sparkline -->
+              <div class="flex items-end gap-1 h-10">
+                <div class="w-1.5 bg-[#00ff88]/30 h-4 rounded-t"></div>
+                <div class="w-1.5 bg-[#00ff88]/40 h-6 rounded-t"></div>
+                <div class="w-1.5 bg-[#00ff88]/50 h-5 rounded-t"></div>
+                <div class="w-1.5 bg-[#00ff88]/70 h-8 rounded-t"></div>
+                <div class="w-1.5 bg-[#00ff88] h-10 rounded-t shadow-[0_0_8px_#00ff88]"></div>
+              </div>
+            </div>
+            <div class="kpi-glow"></div>
+          </div>
+
+          <!-- KPI 3: Resource Utilization -->
+          <div class="kpi-card relative overflow-hidden bg-[#09120e]/80 border border-[#14281e] hover:border-[#00ff88]/50 rounded-2xl p-5 backdrop-blur-sm transition-all duration-300 group">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400">Resource Utilization</span>
+              <span class="inline-flex items-center gap-1 text-[11px] font-mono text-[#00e5ff]">
+                <i data-lucide="activity" class="w-3 h-3"></i> Peak Stable
+              </span>
+            </div>
+            <div class="mt-4 flex items-end justify-between">
+              <div>
+                <div class="text-3xl font-cyber font-black tracking-tight text-white">
+                  92<span class="text-lg text-[#00e5ff]">%</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">14 Industrial Co-locators</div>
+              </div>
+              <canvas id="kpiSparkline1" width="80" height="36" class="w-20 h-9"></canvas>
+            </div>
+            <div class="kpi-glow"></div>
+          </div>
+
+          <!-- KPI 4: CO2e Savings -->
+          <div class="kpi-card relative overflow-hidden bg-[#09120e]/80 border border-[#14281e] hover:border-[#00ff88]/50 rounded-2xl p-5 backdrop-blur-sm transition-all duration-300 group">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-slate-400">CO₂e Avoided</span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                -18% Footprint
+              </span>
+            </div>
+            <div class="mt-4 flex items-end justify-between">
+              <div>
+                <div class="text-3xl font-cyber font-black tracking-tight text-white">
+                  3,140 <span class="text-xs font-sans font-normal text-slate-400">kg</span>
+                </div>
+                <div class="text-[11px] text-[#00ff88] flex items-center gap-1 mt-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-ping"></span>
+                  Operational Status: Active
+                </div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/30 text-[#00ff88]">
+                <i data-lucide="leaf" class="w-5 h-5"></i>
+              </div>
+            </div>
+            <div class="kpi-glow"></div>
+          </div>
+
+        </section>
+
+        <!-- 2. CORE VISUALIZATION GRID (3 PRIMARY PANELS) -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- PANEL 1: AI Graph Neural Network (Molecular Structure) - 4 COLS -->
+          <div id="molecular" class="lg:col-span-4 bg-[#09120e]/85 border border-[#14281e] rounded-2xl p-5 flex flex-col justify-between backdrop-blur-md relative group hover:border-[#00ff88]/40 transition-all">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 rounded-lg bg-[#00ff88]/15 border border-[#00ff88]/30 text-[#00ff88]">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Waste Stream Molecular Analysis</h3>
+                  <p class="text-[11px] text-slate-400">AI-GNN By-product Prediction Model</p>
+                </div>
+              </div>
+              <button id="resetMoleculeBtn" title="Reset Rotation" class="text-slate-400 hover:text-white p-1 rounded hover:bg-[#152a1f] transition">
+                <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- 3D Canvas Container -->
+            <div class="relative w-full h-64 rounded-xl bg-[#050a07] border border-[#122219] overflow-hidden">
+              <div id="molecule3d-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+              
+              <!-- Floating Overlay Tags -->
+              <div class="absolute top-3 left-3 bg-[#0a1510]/80 backdrop-blur-sm border border-[#00ff88]/40 px-2.5 py-1 rounded-lg pointer-events-none">
+                <div class="text-[10px] text-slate-400 font-mono">Polymer Chain</div>
+                <div class="text-xs font-bold text-[#00ff88] font-mono">82.1% Purity</div>
+              </div>
+
+              <div class="absolute top-3 right-3 bg-[#0a1510]/80 backdrop-blur-sm border border-[#00e5ff]/40 px-2.5 py-1 rounded-lg pointer-events-none text-right">
+                <div class="text-[10px] text-slate-400 font-mono">Impurities (Volatile)</div>
+                <div class="text-xs font-bold text-[#00e5ff] font-mono">17.9%</div>
+              </div>
+
+              <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[10px] font-mono text-slate-400 bg-[#070e0a]/80 px-2.5 py-1 rounded border border-[#13261c] pointer-events-none">
+                <span>Drag to rotate 3D GNN nodes</span>
+                <span class="text-[#00ff88]">Live Sim</span>
+              </div>
+            </div>
+
+            <!-- Chemical Breakdown Table -->
+            <div class="mt-4 pt-3 border-t border-[#14281e] flex items-center justify-between">
+              <div class="flex items-center gap-3 text-xs font-mono">
+                <span class="flex items-center gap-1 text-slate-300"><strong class="text-[#00ff88]">C:</strong> 72.4%</span>
+                <span class="flex items-center gap-1 text-slate-300"><strong class="text-[#00e5ff]">H:</strong> 18.2%</span>
+                <span class="flex items-center gap-1 text-slate-300"><strong class="text-amber-400">O:</strong> 9.4%</span>
+              </div>
+              <div class="flex items-center gap-1.5 text-xs text-[#00ff88] font-medium">
+                <span class="w-2 h-2 rounded-full bg-[#00ff88]"></span>
+                Stream Quality: Stable
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL 2: Spatial Reverse-Logistics Map - 4 COLS -->
+          <div id="logistics" class="lg:col-span-4 bg-[#09120e]/85 border border-[#14281e] rounded-2xl p-5 flex flex-col justify-between backdrop-blur-md relative group hover:border-[#00ff88]/40 transition-all">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 rounded-lg bg-[#00e5ff]/15 border border-[#00e5ff]/30 text-[#00e5ff]">
+                  <i data-lucide="globe-2" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Global Spatial Logistics Map</h3>
+                  <p class="text-[11px] text-slate-400">AI Multimodal Reverse-Logistics Routing</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 text-[10px] font-mono">
+                <span class="flex items-center gap-1 text-[#00ff88]"><span class="w-2 h-2 rounded-full bg-[#00ff88]"></span> Hubs</span>
+                <span class="flex items-center gap-1 text-[#00e5ff]"><span class="w-2 h-2 rounded-full bg-[#00e5ff]"></span> Routes</span>
+              </div>
+            </div>
+
+            <!-- Interactive Canvas Map -->
+            <div class="relative w-full h-64 rounded-xl bg-[#050a07] border border-[#122219] overflow-hidden flex items-center justify-center">
+              <canvas id="logisticsMapCanvas" class="w-full h-full block"></canvas>
+              
+              <!-- Floating Tooltip Box -->
+              <div id="mapTooltip" class="absolute top-4 right-4 bg-[#0a1510]/90 backdrop-blur border border-[#00ff88]/40 p-2.5 rounded-xl text-xs pointer-events-none transition-opacity duration-200 shadow-xl">
+                <div class="flex items-center gap-1.5 text-[#00ff88] font-bold">
+                  <i data-lucide="navigation" class="w-3 h-3"></i>
+                  <span id="tooltipHubName">Hub: Rotterdam</span>
+                </div>
+                <div class="text-[10px] text-slate-300 font-mono mt-0.5" id="tooltipShipments">48 Active Vessels / Rail</div>
+                <div class="text-[9px] text-[#00e5ff] font-mono mt-0.5">Route Efficiency: 96.2%</div>
+              </div>
+
+              <!-- Map Controls Overlay -->
+              <div class="absolute bottom-2 left-3 flex items-center gap-1.5">
+                <button id="filterActiveShipments" class="px-2 py-0.5 bg-[#0b1611] hover:bg-[#12251d] text-[10px] font-mono text-[#00ff88] rounded border border-[#182f23] transition">
+                  Focus EMEA
+                </button>
+                <button id="toggleGeoRoutes" class="px-2 py-0.5 bg-[#0b1611] hover:bg-[#12251d] text-[10px] font-mono text-slate-300 rounded border border-[#182f23] transition">
+                  Toggle Low-CO₂
+                </button>
+              </div>
+            </div>
+
+            <!-- Footer Meta -->
+            <div class="mt-4 pt-3 border-t border-[#14281e] flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-slate-400">
+                <i data-lucide="truck" class="w-4 h-4 text-[#00ff88]"></i>
+                <span>Active Shipments: <strong class="text-white font-mono">48 Live</strong></span>
+              </div>
+              <span class="text-[11px] font-mono text-[#00e5ff]">Avg Transit: -24% Time</span>
+            </div>
+          </div>
+
+          <!-- PANEL 3: 3D Digital Twin Factory (Plant Alpha) - 4 COLS -->
+          <div id="digital-twin" class="lg:col-span-4 bg-[#09120e]/85 border border-[#14281e] rounded-2xl p-5 flex flex-col justify-between backdrop-blur-md relative group hover:border-[#00ff88]/40 transition-all">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 rounded-lg bg-[#00ff88]/15 border border-[#00ff88]/30 text-[#00ff88]">
+                  <i data-lucide="factory" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Factory Digital Twin — Plant Alpha</h3>
+                  <p class="text-[11px] text-slate-400">Cyber-Physical Industrial Telemetry</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live IoT
+                </span>
+              </div>
+            </div>
+
+            <!-- 3D Factory Canvas Container -->
+            <div class="relative w-full h-64 rounded-xl bg-[#050a07] border border-[#122219] overflow-hidden">
+              <div id="factory3d-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+              <!-- Live Floating Telemetry Overlay Pills -->
+              <div class="absolute top-3 left-3 flex flex-col gap-1.5 pointer-events-none">
+                <div class="bg-[#070e0a]/80 backdrop-blur border border-[#152e20] px-2.5 py-1 rounded text-[10px] font-mono flex items-center gap-2">
+                  <span class="text-slate-400">Core Temp:</span>
+                  <span class="text-[#00ff88] font-bold" id="telemetryTemp">35.4°C</span>
+                </div>
+                <div class="bg-[#070e0a]/80 backdrop-blur border border-[#152e20] px-2.5 py-1 rounded text-[10px] font-mono flex items-center gap-2">
+                  <span class="text-slate-400">Flow Rate:</span>
+                  <span class="text-[#00e5ff] font-bold" id="telemetryFlow">175 m³/h</span>
+                </div>
+              </div>
+
+              <div class="absolute top-3 right-3 flex flex-col gap-1.5 pointer-events-none text-right">
+                <div class="bg-[#070e0a]/80 backdrop-blur border border-[#152e20] px-2.5 py-1 rounded text-[10px] font-mono flex items-center justify-end gap-2">
+                  <span class="text-slate-400">Energy:</span>
+                  <span class="text-amber-400 font-bold">8.5 MWh</span>
+                </div>
+                <div class="bg-[#070e0a]/80 backdrop-blur border border-[#152e20] px-2.5 py-1 rounded text-[10px] font-mono flex items-center justify-end gap-2">
+                  <span class="text-slate-400">Efficiency:</span>
+                  <span class="text-[#00ff88] font-bold">99.4%</span>
+                </div>
+              </div>
+
+              <!-- Interactive Camera Trigger -->
+              <div class="absolute bottom-2 right-2 flex items-center gap-1 bg-[#09150f]/80 p-1 rounded-lg border border-[#162e21]">
+                <button id="camOverviewBtn" class="px-2 py-0.5 text-[10px] font-mono bg-[#00ff88]/20 text-[#00ff88] rounded hover:bg-[#00ff88]/30 transition">Isometric</button>
+                <button id="camTopBtn" class="px-2 py-0.5 text-[10px] font-mono text-slate-400 hover:text-white rounded hover:bg-[#14261c] transition">Top-Down</button>
+              </div>
+            </div>
+
+            <!-- Footer Status -->
+            <div class="mt-4 pt-3 border-t border-[#14281e] flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-slate-300">
+                <span class="inline-block w-2 h-2 rounded-full bg-[#00ff88]"></span>
+                <span>Operational Status: <strong class="text-[#00ff88]">Optimal / Syncing</strong></span>
+              </div>
+              <div class="flex items-center gap-1.5 text-amber-400 text-[11px] font-mono bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                0 Critical Alerts
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- 3. BOTTOM ROW: MATERIAL FLOW SANKEY & ESG CARBON LEDGER -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- PANEL 4: Material Flow Analysis (Sankey Diagram) - 6 COLS -->
+          <div id="sankey" class="lg:col-span-6 bg-[#09120e]/85 border border-[#14281e] rounded-2xl p-5 backdrop-blur-md relative group hover:border-[#00ff88]/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <div class="p-1.5 rounded-lg bg-[#00ff88]/15 border border-[#00ff88]/30 text-[#00ff88]">
+                    <i data-lucide="git-commit" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-white">Material Flow Analysis (Circular Economy)</h3>
+                    <p class="text-[11px] text-slate-400">Closed-Loop Mass-Balance Sankey Flow</p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-mono text-[#00ff88] bg-[#00ff88]/10 px-2 py-0.5 rounded border border-[#00ff88]/20">
+                  Mass Balance 100%
+                </span>
+              </div>
+
+              <!-- Interactive SVG Sankey Visualization -->
+              <div class="w-full h-56 bg-[#050a07] border border-[#122219] rounded-xl p-3 relative overflow-hidden flex items-center justify-center">
+                <svg id="sankeySvg" class="w-full h-full" viewBox="0 0 540 220" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="flowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.8"/>
+                      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.8"/>
+                    </linearGradient>
+                    <linearGradient id="flowGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
+                      <stop offset="100%" stop-color="#00ff88" stop-opacity="0.9"/>
+                    </linearGradient>
+                    <linearGradient id="flowGradWaste" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.8"/>
+                      <stop offset="100%" stop-color="#f97316" stop-opacity="0.8"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Left Inputs -->
+                  <!-- Raw Node -->
+                  <rect x="20" y="20" width="12" height="40" rx="3" fill="#00e5ff" />
+                  <text x="38" y="44" fill="#94a3b8" font-size="11" font-family="JetBrains Mono">Raw 25%</text>
+
+                  <!-- Recycled Node -->
+                  <rect x="20" y="75" width="12" height="85" rx="3" fill="#00ff88" />
+                  <text x="38" y="122" fill="#00ff88" font-size="11" font-family="JetBrains Mono" font-weight="bold">Recycled 75%</text>
+
+                  <!-- By-Product Slag -->
+                  <rect x="20" y="175" width="12" height="25" rx="3" fill="#ef4444" />
+                  <text x="38" y="192" fill="#ef4444" font-size="11" font-family="JetBrains Mono">Waste 10%</text>
+
+                  <!-- Connecting Flows -->
+                  <path d="M 32 40 C 130 40, 130 90, 220 90 L 220 120 C 130 120, 130 55, 32 55 Z" fill="url(#flowGrad1)" opacity="0.75" class="hover:opacity-100 transition cursor-pointer" />
+                  <path d="M 32 95 C 130 95, 130 110, 220 110 L 220 170 C 130 170, 130 155, 32 155 Z" fill="url(#flowGrad2)" opacity="0.85" class="hover:opacity-100 transition cursor-pointer" />
+                  <path d="M 32 185 C 130 185, 130 195, 220 195 L 220 205 C 130 205, 130 195, 32 195 Z" fill="url(#flowGradWaste)" opacity="0.7" />
+
+                  <!-- Middle Process Nodes -->
+                  <rect x="220" y="85" width="14" height="90" rx="3" fill="#00ff88" />
+                  <text x="240" y="132" fill="#ffffff" font-size="11" font-family="JetBrains Mono">Catalytic Reactor (90%)</text>
+
+                  <!-- Flow to Output -->
+                  <path d="M 234 95 C 330 95, 330 45, 430 45 L 430 70 C 330 70, 330 115, 234 115 Z" fill="url(#flowGrad1)" opacity="0.8" />
+                  <path d="M 234 125 C 330 125, 330 120, 430 120 L 430 185 C 330 185, 330 170, 234 170 Z" fill="url(#flowGrad2)" opacity="0.9" />
+                  <path d="M 234 175 C 330 175, 330 195, 430 195 L 430 205 C 330 205, 330 180, 234 180 Z" fill="url(#flowGradWaste)" opacity="0.75" />
+
+                  <!-- Right Output Nodes -->
+                  <rect x="430" y="35" width="12" height="35" rx="3" fill="#00e5ff" />
+                  <text x="448" y="58" fill="#00e5ff" font-size="11" font-family="JetBrains Mono">Reuse 10%</text>
+
+                  <rect x="430" y="90" width="12" height="95" rx="3" fill="#00ff88" />
+                  <text x="448" y="142" fill="#00ff88" font-size="11" font-family="JetBrains Mono" font-weight="bold">Production 90%</text>
+
+                  <rect x="430" y="195" width="12" height="15" rx="3" fill="#ef4444" />
+                  <text x="448" y="206" fill="#ef4444" font-size="10" font-family="JetBrains Mono">Residual 10%</text>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Footnote Stats -->
+            <div class="mt-3 pt-3 border-t border-[#14281e] flex items-center justify-between text-xs text-slate-400">
+              <span>Recycled Yield: <strong class="text-[#00ff88] font-mono">90.2% Net Recovery</strong></span>
+              <span class="text-slate-300 font-mono">Loss Rate: <strong class="text-red-400">&lt; 9.8%</strong></span>
+            </div>
+          </div>
+
+          <!-- PANEL 5: ESG & Circular Carbon Ledger with AI Prediction - 6 COLS -->
+          <div id="carbon-ledger" class="lg:col-span-6 bg-[#09120e]/85 border border-[#14281e] rounded-2xl p-5 backdrop-blur-md relative group hover:border-[#00ff88]/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <div class="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-white">Automated ESG & Circular Carbon Ledger</h3>
+                    <p class="text-[11px] text-slate-400">Audited Smart Contracts & Carbon Credit Trading</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-mono text-[#00ff88] bg-[#00ff88]/10 px-2 py-0.5 rounded border border-[#00ff88]/30 flex items-center gap-1">
+                    <i data-lucide="check-circle" class="w-3 h-3"></i> Verified
+                  </span>
+                </div>
+              </div>
+
+              <!-- Content Split: Mini Forecast Graph + Carbon Table + ESG Score Gauge -->
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                
+                <!-- Prediction Line Chart (5 cols) -->
+                <div class="md:col-span-5 bg-[#050a07] border border-[#122219] rounded-xl p-3 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                    <span>Forecast Optimization</span>
+                    <span class="text-[#00ff88] font-mono">+28% Gain</span>
+                  </div>
+                  <div class="h-28">
+                    <canvas id="predictionChart" class="w-full h-full"></canvas>
+                  </div>
+                  <div class="text-[10px] text-slate-500 font-mono text-center mt-1">Jan — Jun 2026 AI Trajectory</div>
+                </div>
+
+                <!-- Carbon Table & ESG Gauge (7 cols) -->
+                <div class="md:col-span-7 flex flex-col justify-between gap-2">
+                  
+                  <!-- Carbon Ledger Mini Table -->
+                  <div class="bg-[#050a07] border border-[#122219] rounded-xl overflow-hidden">
+                    <table class="w-full text-left text-xs">
+                      <thead class="bg-[#0c1712] text-[10px] font-mono text-slate-400 border-b border-[#14281e]">
+                        <tr>
+                          <th class="py-1.5 px-3">Batch ID</th>
+                          <th class="py-1.5 px-3">Offset (tCO₂e)</th>
+                          <th class="py-1.5 px-3 text-right">Value ($)</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-[#102018] font-mono text-[11px]">
+                        <tr class="hover:bg-[#0c1712]/60">
+                          <td class="py-1.5 px-3 text-slate-300">#SYN-8842</td>
+                          <td class="py-1.5 px-3 text-[#00ff88]">+355.4 t</td>
+                          <td class="py-1.5 px-3 text-right text-white">$2,550</td>
+                        </tr>
+                        <tr class="hover:bg-[#0c1712]/60">
+                          <td class="py-1.5 px-3 text-slate-300">#SYN-8843</td>
+                          <td class="py-1.5 px-3 text-[#00ff88]">+190.2 t</td>
+                          <td class="py-1.5 px-3 text-right text-white">$1,365</td>
+                        </tr>
+                        <tr class="hover:bg-[#0c1712]/60">
+                          <td class="py-1.5 px-3 text-slate-300">#SYN-8844</td>
+                          <td class="py-1.5 px-3 text-[#00ff88]">+270.8 t</td>
+                          <td class="py-1.5 px-3 text-right text-white">$1,950</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- ESG Score & Carbon Neutrality Card -->
+                  <div class="bg-[#050a07] border border-[#122219] rounded-xl p-3 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class="relative w-12 h-12 flex items-center justify-center rounded-full bg-[#00ff88]/10 border-2 border-[#00ff88] shadow-[0_0_12px_rgba(0,255,136,0.4)]">
+                        <span class="text-sm font-cyber font-black text-[#00ff88]">A+</span>
+                      </div>
+                      <div>
+                        <div class="text-xs font-semibold text-white">ESG Rating Score</div>
+                        <div class="text-[10px] text-slate-400 font-mono">ISO 14044 LCA Certified</div>
+                      </div>
+                    </div>
+
+                    <div class="text-right">
+                      <div class="text-[10px] text-slate-400 font-mono">Milestone</div>
+                      <div class="text-xs font-bold text-[#00e5ff] font-mono">140 / 200 t Net Zero</div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-3 pt-3 border-t border-[#14281e] flex items-center justify-between text-xs text-slate-400">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-[#00ff88]"></i>
+                Merkle Root: <code class="text-[10px] text-slate-300 font-mono">0x7f4a...92b1</code>
+              </span>
+              <a href="#" class="text-[#00ff88] hover:underline font-mono text-[11px]">Download ESG Audit &rarr;</a>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Telemetry Modal Details (Hidden by default, can be toggled) -->
+  <div id="telemetryModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#0b1510] border border-[#00ff88]/40 rounded-2xl max-w-lg w-full p-6 shadow-[0_0_30px_rgba(0,255,136,0.2)]">
+      <div class="flex items-center justify-between pb-4 border-b border-[#172c20]">
+        <div class="flex items-center gap-2">
+          <i data-lucide="cpu" class="w-5 h-5 text-[#00ff88]"></i>
+          <h3 class="text-base font-bold text-white">Digital Twin Subsystem Telemetry</h3>
+        </div>
+        <button id="closeModalBtn" class="text-slate-400 hover:text-white">&times;</button>
+      </div>
+      <div class="py-4 space-y-3 font-mono text-xs">
+        <div class="flex justify-between py-1 border-b border-[#122319]">
+          <span class="text-slate-400">Reactor Core:</span>
+          <span class="text-[#00ff88]">Autoclave Pyrolysis V-3</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-[#122319]">
+          <span class="text-slate-400">Sensor Protocol:</span>
+          <span class="text-white">MQTT / OPC-UA</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-[#122319]">
+          <span class="text-slate-400">Throughput Velocity:</span>
+          <span class="text-[#00e5ff]">14.8 kg/sec</span>
+        </div>
+      </div>
+      <div class="pt-2 text-right">
+        <button id="closeModalBtn2" class="px-4 py-2 bg-[#00ff88] text-black font-bold rounded-xl text-xs hover:bg-[#00e5ff] transition">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Application Script -->
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide Icons safely
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

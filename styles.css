@@ -1,0 +1,95 @@
+/* SYNAPSE-IS Cyber-Physical Dashboard Styling */
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060a08;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #152d20;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00ff88;
+}
+
+/* Glassmorphism & Cyber Glow */
+.kpi-card {
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 0 1px 1px rgba(0, 255, 136, 0.1);
+}
+
+.kpi-card:hover {
+  box-shadow: 0 8px 32px -2px rgba(0, 0, 0, 0.6), 0 0 20px 2px rgba(0, 255, 136, 0.15);
+}
+
+.kpi-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.05) 0%, transparent 65%);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.kpi-card:hover .kpi-glow {
+  opacity: 1;
+}
+
+/* Glowing Neon Borders */
+.cyber-border-glow {
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15), inset 0 0 15px rgba(0, 255, 136, 0.05);
+}
+
+/* Pulse Animations */
+@keyframes neonPulse {
+  0%, 100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px #00ff88);
+  }
+  50% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 2px #00ff88);
+  }
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 2s infinite ease-in-out;
+}
+
+/* Subtle HUD Scanline */
+body::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  z-index: 999;
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+/* Canvas & ThreeJS container tweaks */
+#molecule3d-container canvas,
+#factory3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+  display: block;
+}
+
+/* Tooltip animation */
+#mapTooltip {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
